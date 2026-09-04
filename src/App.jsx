@@ -35,6 +35,8 @@ const EducateConfluence = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [isConsultationOpen, setIsConsultationOpen] = useState(false);
+  const [consultationSubmitted, setConsultationSubmitted] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,6 +52,22 @@ const EducateConfluence = () => {
       element.scrollIntoView({ behavior: 'smooth' });
       setIsMenuOpen(false);
     }
+  };
+
+  const openConsultationForm = () => {
+    setConsultationSubmitted(false);
+    setIsConsultationOpen(true);
+  };
+
+  const closeConsultationForm = () => {
+    setIsConsultationOpen(false);
+    setConsultationSubmitted(false);
+  };
+
+  const handleConsultationSubmit = (event) => {
+    event.preventDefault();
+    // Connect this handler to FormSpark when the endpoint is ready.
+    setConsultationSubmitted(true);
   };
 
   // Brand Colors
@@ -291,7 +309,7 @@ const EducateConfluence = () => {
           </svg>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-32 w-full">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-32 w-full">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-100 text-orange-700 text-sm font-medium">
@@ -299,7 +317,7 @@ const EducateConfluence = () => {
                 Transforming Education Across Four Nations
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.1] tracking-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.1] tracking-tight">
                 Educating Minds.
                 <span className="block mt-2 bg-gradient-to-r from-orange-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">
                   Empowering Futures.
@@ -313,14 +331,14 @@ const EducateConfluence = () => {
               <div className="flex flex-wrap gap-4">
                 <button 
                   onClick={() => scrollToSection('programs')}
-                  className="group px-8 py-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold rounded-2xl hover:shadow-xl hover:shadow-orange-200 transition-all duration-300 hover:-translate-y-1 flex items-center gap-2"
+                  className="group w-full sm:w-auto justify-center px-8 py-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold rounded-2xl hover:shadow-xl hover:shadow-orange-200 transition-all duration-300 hover:-translate-y-1 flex items-center gap-2"
                 >
                   Explore Programs
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button 
                   onClick={() => scrollToSection('contact')}
-                  className="px-8 py-4 bg-white text-slate-700 font-semibold rounded-2xl border-2 border-slate-200 hover:border-orange-300 hover:text-orange-600 transition-all duration-300 hover:-translate-y-1"
+                  className="w-full sm:w-auto px-8 py-4 bg-white text-slate-700 font-semibold rounded-2xl border-2 border-slate-200 hover:border-orange-300 hover:text-orange-600 transition-all duration-300 hover:-translate-y-1"
                 >
                   Get Started
                 </button>
@@ -412,7 +430,7 @@ const EducateConfluence = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 bg-slate-50">
+      <section id="about" className="py-16 sm:py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
@@ -421,7 +439,7 @@ const EducateConfluence = () => {
                 About Us
               </div>
               
-              <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
                 We believe every learner deserves <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500">exceptional education</span>
               </h2>
               
@@ -457,7 +475,7 @@ const EducateConfluence = () => {
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-orange-100 to-yellow-100 rounded-[2.5rem] rotate-2"></div>
               <div className="relative bg-white rounded-[2rem] p-8 shadow-xl border border-slate-100">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-4">
                   <div className="space-y-4">
                     <div className="p-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl border border-orange-200">
                       <BookOpen className="w-8 h-8 text-orange-500 mb-3" />
@@ -490,7 +508,7 @@ const EducateConfluence = () => {
       </section>
 
       {/* Approach Section */}
-      <section id="approach" className="py-24 bg-white">
+      <section id="approach" className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 text-orange-600 font-semibold text-sm uppercase tracking-wider mb-4">
@@ -498,7 +516,7 @@ const EducateConfluence = () => {
               Our Approach
               <div className="w-8 h-[2px] bg-orange-500"></div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
               Six pillars of <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">holistic education</span>
             </h2>
             <p className="text-lg text-slate-600">
@@ -536,7 +554,7 @@ const EducateConfluence = () => {
       </section>
 
       {/* Programs Section */}
-      <section id="programs" className="py-24 bg-slate-50">
+      <section id="programs" className="py-16 sm:py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 text-orange-600 font-semibold text-sm uppercase tracking-wider mb-4">
@@ -544,7 +562,7 @@ const EducateConfluence = () => {
               Programs & Services
               <div className="w-8 h-[2px] bg-orange-500"></div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
               Comprehensive offerings for <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-yellow-500 to-green-500">every learner</span>
             </h2>
             <p className="text-lg text-slate-600">
@@ -576,7 +594,7 @@ const EducateConfluence = () => {
       </section>
 
       {/* Audience Section */}
-      <section id="audience" className="py-24 bg-white">
+      <section id="audience" className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 text-orange-600 font-semibold text-sm uppercase tracking-wider mb-4">
@@ -584,7 +602,7 @@ const EducateConfluence = () => {
               Who We Serve
               <div className="w-8 h-[2px] bg-orange-500"></div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
               Partners in <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-green-500">transformation</span>
             </h2>
             <p className="text-lg text-slate-600">
@@ -633,7 +651,7 @@ const EducateConfluence = () => {
       </section>
 
       {/* Mission/Vision Section */}
-      <section id="mission" className="py-24 relative overflow-hidden">
+      <section id="mission" className="py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500 rounded-full blur-[128px]"></div>
@@ -648,7 +666,7 @@ const EducateConfluence = () => {
                 Our Purpose
               </div>
               
-              <h2 className="text-4xl lg:text-6xl font-bold text-white leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white leading-tight">
                 Educate. Empower. Equip. <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-green-400">Transform.</span>
               </h2>
               
@@ -680,7 +698,7 @@ const EducateConfluence = () => {
             </div>
 
             <div className="relative">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-4">
                 <div className="space-y-4 mt-8">
                   <div className="p-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/10 border border-orange-500/20 backdrop-blur-sm">
                     <div className="text-4xl font-bold text-orange-400 mb-2">E</div>
@@ -712,7 +730,7 @@ const EducateConfluence = () => {
       </section>
 
       {/* Global Reach Section */}
-      <section className="py-24 bg-white">
+      <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 text-orange-600 font-semibold text-sm uppercase tracking-wider mb-4">
@@ -720,7 +738,7 @@ const EducateConfluence = () => {
               Global Reach
               <div className="w-8 h-[2px] bg-orange-500"></div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
               Four nations. <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">One mission.</span>
             </h2>
             <p className="text-lg text-slate-600">
@@ -748,9 +766,9 @@ const EducateConfluence = () => {
       </section>
 
       {/* CTA Section */}
-      <section id="contact" className="py-24 bg-slate-50">
+      <section id="contact" className="py-16 sm:py-24 bg-slate-50">
         <div className="max-w-5xl mx-auto px-6 lg:px-8">
-          <div className="relative bg-white rounded-[2.5rem] p-12 lg:p-16 shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+          <div className="relative bg-white rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 lg:p-16 shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-orange-100 to-yellow-100 rounded-full blur-3xl opacity-60 -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-green-100 to-blue-100 rounded-full blur-3xl opacity-60 translate-y-1/2 -translate-x-1/2"></div>
@@ -761,7 +779,7 @@ const EducateConfluence = () => {
                 Start Your Journey
               </div>
               
-              <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">
                 Ready to transform <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-yellow-500 to-green-500">education together?</span>
               </h2>
               
@@ -770,11 +788,11 @@ const EducateConfluence = () => {
               </p>
               
               <div className="flex flex-wrap justify-center gap-4">
-                <button className="group px-8 py-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold rounded-2xl hover:shadow-xl hover:shadow-orange-200 transition-all duration-300 hover:-translate-y-1 flex items-center gap-2">
+                <button onClick={openConsultationForm} className="group w-full sm:w-auto justify-center px-8 py-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold rounded-2xl hover:shadow-xl hover:shadow-orange-200 transition-all duration-300 hover:-translate-y-1 flex items-center gap-2">
                   Schedule a Consultation
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button className="px-8 py-4 bg-white text-slate-700 font-semibold rounded-2xl border-2 border-slate-200 hover:border-green-300 hover:text-green-600 transition-all duration-300 hover:-translate-y-1">
+                <button className="w-full sm:w-auto px-8 py-4 bg-white text-slate-700 font-semibold rounded-2xl border-2 border-slate-200 hover:border-green-300 hover:text-green-600 transition-all duration-300 hover:-translate-y-1">
                   Download Brochure
                 </button>
               </div>
@@ -782,21 +800,79 @@ const EducateConfluence = () => {
               <div className="pt-8 flex flex-wrap justify-center gap-8 text-sm text-slate-500">
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-orange-500" />
-                  <span>+234 XXX XXX XXXX</span>
+                  <span>+234 706 735 4647</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-yellow-500" />
-                  <span>hello@educateconfluence.com</span>
+                  <span>
+educateconfluenceconsulting@gmail.com
+</span>
                 </div>
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <Globe className="w-4 h-4 text-green-500" />
                   <span>www.educateconfluence.com</span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Consultation Form — ready for FormSpark integration */}
+      {isConsultationOpen && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="consultation-title"
+        >
+          <button
+            aria-label="Close consultation form"
+            onClick={closeConsultationForm}
+            className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+          />
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl sm:p-10">
+            <button
+              aria-label="Close consultation form"
+              onClick={closeConsultationForm}
+              className="absolute right-5 top-5 rounded-xl p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {consultationSubmitted ? (
+              <div className="py-10 text-center">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-400 to-blue-500 text-2xl font-bold text-white">✓</div>
+                <h2 id="consultation-title" className="text-3xl font-bold text-slate-900">Thank you for your interest.</h2>
+                <p className="mx-auto mt-4 max-w-md text-slate-600">Your consultation form is ready for the FormSpark connection. We’ll enable delivery as soon as the endpoint is added.</p>
+                <button onClick={closeConsultationForm} className="mt-8 rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-700">Close</button>
+              </div>
+            ) : (
+              <>
+                <div className="mb-8 pr-10">
+                  <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-orange-600">Start your journey</p>
+                  <h2 id="consultation-title" className="text-3xl font-bold tracking-tight text-slate-900">Schedule a consultation</h2>
+                  <p className="mt-3 text-slate-600">Tell us a little about your needs and the right member of our team will be in touch.</p>
+                </div>
+
+                <form onSubmit={handleConsultationSubmit} className="space-y-5">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <label className="space-y-2 text-sm font-semibold text-slate-700">Full name<input required name="name" type="text" placeholder="Your full name" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
+                    <label className="space-y-2 text-sm font-semibold text-slate-700">Email address<input required name="email" type="email" placeholder="you@example.com" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
+                  </div>
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <label className="space-y-2 text-sm font-semibold text-slate-700">Phone number<input name="phone" type="tel" placeholder="Your phone number" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
+                    <label className="space-y-2 text-sm font-semibold text-slate-700">I’m interested in<select required name="interest" defaultValue="" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100"><option value="" disabled>Select an option</option><option>Programs for learners</option><option>Teacher development</option><option>School partnership</option><option>Other</option></select></label>
+                  </div>
+                  <label className="block space-y-2 text-sm font-semibold text-slate-700">How can we help?<textarea required name="message" rows="4" placeholder="Share your goals or questions..." className="w-full resize-none rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
+                  <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 px-6 py-4 font-semibold text-white shadow-lg shadow-orange-200 transition hover:-translate-y-0.5 hover:shadow-xl">Send consultation request <ArrowRight className="h-5 w-5" /></button>
+                  <p className="text-center text-xs text-slate-500">Form delivery will be connected to FormSpark next.</p>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="bg-slate-900 text-white py-16">
