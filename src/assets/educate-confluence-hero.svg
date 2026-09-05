@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" fill="none">
+  <defs>
+    <linearGradient id="ribbonWarm" x1="80" y1="220" x2="470" y2="650" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F97316"/><stop offset=".48" stop-color="#FACC15"/><stop offset="1" stop-color="#22C55E"/>
+    </linearGradient>
+    <linearGradient id="ribbonCool" x1="730" y1="230" x2="360" y2="670" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/><stop offset=".5" stop-color="#22C55E"/><stop offset="1" stop-color="#FACC15"/>
+    </linearGradient>
+    <linearGradient id="ribbonBlue" x1="90" y1="650" x2="700" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/><stop offset=".45" stop-color="#22C55E"/><stop offset="1" stop-color="#F97316"/>
+    </linearGradient>
+    <radialGradient id="globe" cx="35%" cy="25%" r="80%">
+      <stop stop-color="#8BE5FF"/><stop offset=".42" stop-color="#259DD7"/><stop offset="1" stop-color="#075985"/>
+    </radialGradient>
+    <linearGradient id="skinDeep" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6B3527"/><stop offset="1" stop-color="#351711"/></linearGradient>
+    <linearGradient id="skinMid" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#A95C3C"/><stop offset="1" stop-color="#5A281D"/></linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#263B63"/><stop offset="1" stop-color="#101D3B"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="12"/><feOffset dy="12"/><feComponentTransfer><feFuncA type=" linear" slope=".18"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="9" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <clipPath id="globeClip"><circle cx="405" cy="365" r="166"/></clipPath>
+  </defs>
+
+  <!-- understated international skyline -->
+  <g opacity=".28" stroke="#94A3B8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M224 174v-40l14-12 14 12v40M238 122V94m-9 10h18"/>
+    <path d="M314 160v-38h24v38m-12-38V95m-8 10h16"/>
+    <path d="M498 168v-55l15-12 15 12v55m-15-67V79m-9 12h18"/>
+    <path d="M583 178v-36l17-17 17 17v36m-17-53v-25m-9 10h18"/>
+  </g>
+  <g opacity=".5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="3">
+    <path d="M205 184h63l-10 22h-43z"/><path d="M485 178h62l-10 22h-42z"/>
+  </g>
+
+  <!-- flowing confluence ribbons behind the learners -->
+  <path d="M76 284 C132 112 308 93 420 228 C525 354 647 417 719 266" stroke="url(#ribbonWarm)" stroke-width="39" stroke-linecap="round" opacity=".9"/>
+  <path d="M724 293 C668 119 490 106 382 237 C278 364 153 425 81 302" stroke="url(#ribbonCool)" stroke-width="39" stroke-linecap="round" opacity=".9"/>
+  <path d="M91 595 C228 744 407 737 488 573 C548 453 635 425 710 525" stroke="url(#ribbonBlue)" stroke-width="31" stroke-linecap="round" opacity=".83"/>
+  <path d="M708 588 C581 747 398 745 315 584 C252 462 163 428 91 531" stroke="url(#ribbonWarm)" stroke-width="31" stroke-linecap="round" opacity=".72"/>
+
+  <!-- globe -->
+  <g filter="url(#shadow)">
+    <circle cx="405" cy="365" r="177" fill="#E0F2FE" opacity=".65"/>
+    <circle cx="405" cy="365" r="166" fill="url(#globe)" stroke="#BAE6FD" stroke-width="7"/>
+    <g clip-path="url(#globeClip)" fill="#B8E58B" opacity=".9">
+      <path d="M301 267c30-24 61-24 74-4l-18 31 27 24-32 25-41-11-30-33z"/>
+      <path d="M428 227l68 23 18 40-31 20-9 43-40-14-10-42-29-24z"/>
+      <path d="M477 398l47-21 41 28-25 34-38 8-24-20z"/>
+      <path d="M359 400l37 12 11 51-31 42-34-12-12-48z"/>
+      <path d="M284 476l49-26 42 21-17 43-56 13z"/>
+    </g>
+    <g clip-path="url(#globeClip)" stroke="#E0F2FE" stroke-width="2" opacity=".38">
+      <path d="M238 319c93 33 244 33 334 0M232 374c105 27 253 27 346 0M251 433c98-22 211-22 308 0M335 204c-30 95-30 226 0 322M438 199c29 106 29 228 0 334"/>
+    </g>
+    <ellipse cx="365" cy="281" rx="86" ry="43" fill="#fff" opacity=".16" transform="rotate(-25 365 281)"/>
+  </g>
+
+  <!-- small learning orbit details -->
+  <g filter="url(#softGlow)">
+    <circle cx="206" cy="346" r="16" fill="#FACC15" opacity=".9"/>
+    <path d="M207 323l4 13 13 4-13 4-4 13-4-13-13-4 13-4z" fill="#FFF7AE"/>
+    <circle cx="604" cy="335" r="16" fill="#F97316" opacity=".9"/>
+    <path d="M593 335h22M604 324v22" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g fill="#0F4C81" font-family="Georgia, serif" font-size="22" font-weight="700" opacity=".85">
+    <text x="184" y="454">x + y</text><text x="601" y="464">&lt;/&gt;</text>
+  </g>
+
+  <!-- younger student reading -->
+  <g filter="url(#shadow)">
+    <path d="M177 703c13-66 53-103 107-103 51 0 83 38 91 103z" fill="#F59E0B"/>
+    <path d="M181 700c12-45 40-69 70-74l18 77z" fill="#FBBF24" opacity=".6"/>
+    <ellipse cx="264" cy="563" rx="43" ry="48" fill="url(#skinMid)"/>
+    <path d="M224 559c-6-44 20-69 57-57 22 7 31 25 28 49l-18-19-13 16-17-20-23 20z" fill="#211411"/>
+    <circle cx="249" cy="566" r="4" fill="#1E293B"/><circle cx="278" cy="566" r="4" fill="#1E293B"/>
+    <path d="M256 585c9 7 18 7 26 0" stroke="#4A211A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M231 646l-42 57M307 646l52 59" stroke="#6B3527" stroke-width="22" stroke-linecap="round"/>
+    <path d="M197 637l-23 54M321 635l34 58" stroke="#F59E0B" stroke-width="23" stroke-linecap="round"/>
+    <path d="M178 687l63-24 44 28-65 29z" fill="#FFFDF5" stroke="#F59E0B" stroke-width="4"/>
+    <path d="M241 663l4 57M285 691l-40 29" stroke="#CBD5E1" stroke-width="3"/>
+  </g>
+
+  <!-- central student seated on books -->
+  <g filter="url(#shadow)">
+    <!-- four labeled books -->
+    <g stroke="#fff" stroke-width="2" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+      <path d="M303 759h196l-8 33H295z" fill="#0EA5E9"/><text x="397" y="782" fill="#fff">TRANSFORM</text>
+      <path d="M293 793h210l-8 33H285z" fill="#22C55E"/><text x="390" y="816" fill="#fff">EQUIP</text>
+      <path d="M286 827h222l-8 33H278z" fill="#FACC15"/><text x="389" y="850" fill="#713F12">EMPOWER</text>
+      <path d="M279 861h233l-8 32H271z" fill="#F97316"/><text x="390" y="883" fill="#fff">EDUCATE</text>
+    </g>
+    <path d="M350 570c-21 55-20 100 6 151h106c17-48 12-107-18-149z" fill="url(#navy)"/>
+    <path d="M359 611c16 15 61 18 83-2l15 63-104-1z" fill="#36558D"/>
+    <ellipse cx="400" cy="520" rx="48" ry="54" fill="url(#skinDeep)"/>
+    <path d="M353 516c-4-48 22-76 59-70 35 5 51 31 41 69l-20-25-16 15-16-23-28 31z" fill="#19100E"/>
+    <circle cx="382" cy="527" r="4" fill="#1E293B"/><circle cx="413" cy="527" r="4" fill="#1E293B"/>
+    <path d="M389 547c9 8 20 8 29 0" stroke="#2F1712" stroke-width="4" stroke-linecap="round"/>
+    <path d="M356 606l-57 63M449 606l55 50" stroke="#6B3527" stroke-width="23" stroke-linecap="round"/>
+    <path d="M312 655l-36 39M500 657l48 30" stroke="#263B63" stroke-width="25" stroke-linecap="round"/>
+    <path d="M306 687l-36 0M544 689l29 11" stroke="#351711" stroke-width="13" stroke-linecap="round"/>
+    <!-- laptop -->
+    <path d="M403 608h126v79H403z" fill="#DCE8F4" stroke="#163A5F" stroke-width="6" transform="rotate(-7 403 608)"/>
+    <path d="M396 690h145l14 12H380z" fill="#163A5F"/>
+    <path d="M418 622l83-10v54l-83 7z" fill="#B8E58B"/>
+    <path d="M438 652l12-14 10 10 18-22 15 18" stroke="#0F766E" stroke-width="4" fill="none"/>
+  </g>
+
+  <!-- student using a tablet -->
+  <g filter="url(#shadow)">
+    <path d="M527 733c-5-84 26-130 83-137 49-6 75 33 82 137z" fill="#22C55E"/>
+    <path d="M553 638c25 25 77 23 104-2l16 97H538z" fill="#16A34A" opacity=".55"/>
+    <ellipse cx="610" cy="541" rx="43" ry="49" fill="url(#skinMid)"/>
+    <path d="M566 535c-2-40 22-66 53-62 31 3 43 25 40 58l-17-24-15 16-17-19-24 24z" fill="#20110E"/>
+    <circle cx="595" cy="545" r="4" fill="#1E293B"/><circle cx="622" cy="545" r="4" fill="#1E293B"/>
+    <path d="M601 565c8 6 17 6 25 0" stroke="#4A211A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M570 661l-60 37M650 656l50 30" stroke="#A95C3C" stroke-width="22" stroke-linecap="round"/>
+    <path d="M514 693l-38 37M699 687l38 35" stroke="#0F766E" stroke-width="23" stroke-linecap="round"/>
+    <rect x="475" y="633" width="100" height="67" rx="7" fill="#E0F2FE" stroke="#164E63" stroke-width="6" transform="rotate(-14 475 633)"/>
+    <rect x="487" y="642" width="76" height="48" rx="3" fill="#8BE5FF" transform="rotate(-14 487 642)"/>
+    <path d="M505 669l14-10 9 7 17-18" stroke="#0F766E" stroke-width="4" fill="none" transform="rotate(-14 505 669)"/>
+  </g>
+
+  <!-- glowing lightbulb and connected learning accents -->
+  <g filter="url(#softGlow)" transform="translate(650 185)">
+    <circle cx="0" cy="0" r="34" fill="#FEF08A" opacity=".45"/>
+    <path d="M-13 15c-24-30-4-59 22-52 27 7 33 37 11 55-5 4-7 10-7 17h-25c0-8-1-14-1-20z" fill="#FACC15" stroke="#F59E0B" stroke-width="5"/>
+    <path d="M-10 36h21M-7 45h15" stroke="#F59E0B" stroke-width="5" stroke-linecap="round"/>
+    <path d="M0-76v-19M-58-38l-14-14M58-38l14-14" stroke="#FACC15" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <path d="M669 222c-22 30-41 54-57 79" stroke="#FACC15" stroke-width="4" stroke-dasharray="6 10" opacity=".75"/>
+
+  <!-- foreground ribbon crossings to unify the composition -->
+  <path d="M101 505 C205 430 260 474 315 590 C364 694 474 715 538 617 C586 543 636 514 707 556" stroke="url(#ribbonCool)" stroke-width="18" stroke-linecap="round" opacity=".85"/>
+  <path d="M94 554 C174 492 238 517 284 624 C325 718 449 755 529 655" stroke="url(#ribbonWarm)" stroke-width="11" stroke-linecap="round" opacity=".8"/>
+</svg>

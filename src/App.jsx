@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import heroIllustration from './assets/educate-confluence-hero.svg';
 import { 
   BookOpen, 
   Users, 
@@ -59,7 +60,7 @@ const CountUp = ({ end, suffix = '', duration = 1400 }) => {
 
     const elements = Array.from(document.querySelectorAll(
       'nav, section h1, section h2, section h3, section p, section .group, section form, footer h2, footer h3, footer p, footer .rounded-3xl'
-    ));
+    )).filter((element) => !element.closest('[data-static-footer]'));
 
     elements.forEach((element, index) => {
       element.classList.add('immersive-reveal');
@@ -423,61 +424,9 @@ const EducateConfluence = () => {
 
             <div className="relative hidden lg:block">
               <div className="relative w-full aspect-square max-w-lg mx-auto">
-                {/* Abstract educational illustration */}
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-yellow-50 to-green-50 rounded-[3rem] rotate-3"></div>
-                <div className="absolute inset-0 bg-white rounded-[3rem] shadow-2xl shadow-slate-200/50 flex items-center justify-center overflow-hidden">
-                  <div className="relative w-full h-full p-12">
-                    {/* Central infinity/education symbol */}
-                    <svg viewBox="0 0 400 400" className="w-full h-full">
-                      {/* Infinity loops */}
-                      <path d="M100 200 C100 140 140 100 200 100 C260 100 300 140 300 200 C300 260 260 300 200 300 C140 300 100 260 100 200" 
-                            fill="none" stroke="url(#loop1)" strokeWidth="12" strokeLinecap="round" opacity="0.9"/>
-                      <path d="M300 200 C300 140 260 100 200 100 C140 100 100 140 100 200 C100 260 140 300 200 300 C260 300 300 260 300 200" 
-                            fill="none" stroke="url(#loop2)" strokeWidth="12" strokeLinecap="round" opacity="0.9"/>
-                      
-                      {/* Central tower */}
-                      <line x1="200" y1="60" x2="200" y2="340" stroke="url(#tower)" strokeWidth="14" strokeLinecap="round"/>
-                      <line x1="160" y1="120" x2="240" y2="120" stroke="#F97316" strokeWidth="10" strokeLinecap="round"/>
-                      <line x1="150" y1="220" x2="250" y2="220" stroke="#F97316" strokeWidth="10" strokeLinecap="round"/>
-                      <polygon points="200,40 210,60 190,60" fill="#F97316"/>
-                      
-                      {/* Orbiting dots */}
-                      <circle cx="200" cy="100" r="8" fill="#FBBF24">
-                        <animate attributeName="cy" values="100;300;100" dur="4s" repeatCount="indefinite"/>
-                      </circle>
-                      <circle cx="100" cy="200" r="6" fill="#22C55E"/>
-                      <circle cx="300" cy="200" r="6" fill="#0EA5E9"/>
-                      
-                      <defs>
-                        <linearGradient id="loop1" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#F97316"/>
-                          <stop offset="100%" stopColor="#FBBF24"/>
-                        </linearGradient>
-                        <linearGradient id="loop2" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#22C55E"/>
-                          <stop offset="100%" stopColor="#0EA5E9"/>
-                        </linearGradient>
-                        <linearGradient id="tower" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#FBBF24"/>
-                          <stop offset="100%" stopColor="#F97316"/>
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    
-                    {/* Floating badges */}
-                    <div className="absolute top-8 right-8 px-4 py-2 bg-white rounded-xl shadow-lg border border-orange-100 flex items-center gap-2 animate-bounce" style={{animationDuration: '3s'}}>
-                      <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                      <span className="text-xs font-semibold text-slate-700">Academic</span>
-                    </div>
-                    <div className="absolute bottom-12 left-8 px-4 py-2 bg-white rounded-xl shadow-lg border border-green-100 flex items-center gap-2 animate-bounce" style={{animationDuration: '4s'}}>
-                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                      <span className="text-xs font-semibold text-slate-700">STEAM</span>
-                    </div>
-                    <div className="absolute top-1/2 -right-4 px-4 py-2 bg-white rounded-xl shadow-lg border border-blue-100 flex items-center gap-2 animate-bounce" style={{animationDuration: '3.5s'}}>
-                      <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                      <span className="text-xs font-semibold text-slate-700">Global</span>
-                    </div>
-                  </div>
+                <div className="relative flex h-full items-center justify-center overflow-hidden rounded-[3rem] bg-white shadow-2xl shadow-slate-200/50">
+                  <img src={heroIllustration} alt="Three learners gathered around a globe with flowing rainbow ribbons" className="h-full w-full -translate-y-8 object-contain p-4 sm:p-8 lg:-translate-y-12" />
                 </div>
               </div>
             </div>
@@ -983,7 +932,7 @@ educateconfluenceconsulting@gmail.com
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 border-t border-white/10 py-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <div data-static-footer className="flex flex-col gap-4 border-t border-white/10 py-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
             <div><p>© 2026 Educate Confluence Consulting Enterprise.</p><p className="mt-1">Website produced by <a href="https://oriarebun-princeton-portfolio.vercel.app" target="_blank" rel="noreferrer" className="font-semibold text-slate-300 transition hover:text-white">Oriarebun Princeton</a></p></div>
             <div className="flex gap-5"><a href="#" className="transition hover:text-white">Privacy Policy</a><a href="#" className="transition hover:text-white">Terms of Service</a></div>
           </div>
