@@ -16,6 +16,33 @@ textarea {
   font-size: 16px;
 }
 
+.immersive-reveal {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translate3d(0, 28px, 0) scale(0.985);
+  transition:
+    opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.immersive-reveal.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+@keyframes ambient-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -10px, 0) scale(1.02); }
+}
+
+.group:hover .immersive-reveal.is-visible {
+  animation: ambient-drift 2.5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -24,5 +51,11 @@ textarea {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .immersive-reveal {
+    opacity: 1;
+    filter: none;
+    transform: none;
   }
 }

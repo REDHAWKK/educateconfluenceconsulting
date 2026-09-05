@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { 
   BookOpen, 
   Users, 
@@ -31,6 +31,81 @@ import {
   Mail
 } from 'lucide-react';
 
+const CountUp = ({ end, suffix = '', duration = 1400 }) => {
+  const statisticRef = useRef(null);
+  const [value, setValue] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    const element = statisticRef.current;
+    if (!element) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  useLayoutEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const elements = Array.from(document.querySelectorAll(
+      'nav, section h1, section h2, section h3, section p, section .group, section form, footer h2, footer h3, footer p, footer .rounded-3xl'
+    ));
+
+    elements.forEach((element, index) => {
+      element.classList.add('immersive-reveal');
+      element.style.setProperty('--reveal-delay', `${(index % 6) * 70}ms`);
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+    );
+
+    elements.forEach((element) => observer.observe(element));
+    return () => {
+      observer.disconnect();
+      elements.forEach((element) => {
+        element.classList.remove('immersive-reveal', 'is-visible');
+        element.style.removeProperty('--reveal-delay');
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!hasStarted) return undefined;
+
+    let animationFrame;
+    const startTime = performance.now();
+    const animate = (time) => {
+      const progress = Math.min((time - startTime) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.floor(end * easedProgress));
+
+      if (progress < 1) animationFrame = requestAnimationFrame(animate);
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [duration, end, hasStarted]);
+
+  return <span ref={statisticRef}>{value.toLocaleString()}{suffix}</span>;
+};
+
 const EducateConfluence = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -41,8 +116,15 @@ const EducateConfluence = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+
+      const sections = Array.from(document.querySelectorAll('section[id]'));
+      const currentSection = sections.reduce((activeId, section) => (
+        section.getBoundingClientRect().top <= 160 ? section.id : activeId
+      ), '');
+      setActiveSection(currentSection);
     };
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -50,6 +132,7 @@ const EducateConfluence = () => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(id);
       setIsMenuOpen(false);
     }
   };
@@ -201,28 +284,7 @@ const EducateConfluence = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('hero')}>
-              <div className="relative w-10 h-10">
-                <svg viewBox="0 0 100 100" className="w-full h-full">
-                  <path d="M20 50 Q20 20 50 20 Q80 20 80 50 Q80 80 50 80 Q20 80 20 50" fill="none" stroke="url(#orangeGrad)" strokeWidth="8" strokeLinecap="round"/>
-                  <path d="M80 50 Q80 20 50 20 Q20 20 20 50 Q20 80 50 80 Q80 80 80 50" fill="none" stroke="url(#blueGrad)" strokeWidth="8" strokeLinecap="round" transform="rotate(180 50 50)"/>
-                  <line x1="25" y1="50" x2="75" y2="50" stroke="#F97316" strokeWidth="8" strokeLinecap="round"/>
-                  <line x1="50" y1="15" x2="50" y2="85" stroke="url(#yellowGrad)" strokeWidth="8" strokeLinecap="round"/>
-                  <defs>
-                    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#F97316"/>
-                      <stop offset="100%" stopColor="#FBBF24"/>
-                    </linearGradient>
-                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#22C55E"/>
-                      <stop offset="100%" stopColor="#0EA5E9"/>
-                    </linearGradient>
-                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#FBBF24"/>
-                      <stop offset="100%" stopColor="#F97316"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
+              <img src="/nav-logo.png" alt="Educate Confluence logo" className="h-12 w-16 object-contain sm:h-14 sm:w-20" />
               <div className="flex flex-col">
                 <span className={`text-lg font-bold tracking-tight ${scrolled ? 'text-slate-900' : 'text-slate-900'}`}>
                   Educate Confluence
@@ -239,16 +301,17 @@ const EducateConfluence = () => {
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
-                  className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 rounded-full hover:bg-slate-50 transition-all duration-300"
+                  className={`group relative overflow-hidden px-4 py-2 text-sm font-medium transition-colors duration-300 ${activeSection === link.id ? 'text-slate-950' : 'text-slate-600 hover:text-slate-900'}`}
                 >
-                  {link.name}
+                  <span className="relative z-10">{link.name}</span>
+                  <span className={`absolute bottom-1 left-4 right-4 h-0.5 origin-left rounded-full bg-gradient-to-r from-orange-500 via-yellow-400 to-green-500 transition-transform duration-500 ease-out ${activeSection === link.id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
                 </button>
               ))}
               <button 
                 onClick={() => scrollToSection('contact')}
-                className="ml-4 px-6 py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-orange-200 transition-all duration-300 hover:-translate-y-0.5"
+                className="group relative ml-4 overflow-hidden px-6 py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-orange-200 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
               >
-                Get Started
+                <span className="relative z-10">Get Started</span><span className="absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/25 transition-transform duration-700 group-hover:translate-x-[500%]" />
               </button>
             </div>
 
@@ -270,9 +333,9 @@ const EducateConfluence = () => {
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
-                  className="block w-full text-left px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors"
+                  className={`group flex w-full items-center justify-between rounded-xl px-4 py-3 text-left font-medium transition-all duration-300 ${activeSection === link.id ? 'bg-orange-50 text-orange-700' : 'text-slate-700 hover:bg-slate-50 hover:pl-5'}`}
                 >
-                  {link.name}
+                  {link.name}<ChevronRight className={`h-4 w-4 transition-all duration-300 ${activeSection === link.id ? 'translate-x-0 text-orange-500' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`} />
                 </button>
               ))}
               <button 
@@ -313,8 +376,8 @@ const EducateConfluence = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-100 text-orange-700 text-sm font-medium">
-                <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                Transforming Education Across Four Nations
+                <Heart className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                Instilling a love for life-long learning
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.1] tracking-tight">
@@ -353,7 +416,7 @@ const EducateConfluence = () => {
                   ))}
                 </div>
                 <div className="text-sm text-slate-500">
-                  <span className="font-semibold text-slate-800">2,500+</span> learners empowered
+                  <span className="font-semibold text-slate-800"><CountUp end={2500} suffix="+" /></span> learners empowered
                 </div>
               </div>
             </div>
@@ -454,15 +517,15 @@ const EducateConfluence = () => {
 
               <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 sm:gap-6 pt-4">
                 <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="text-3xl font-bold text-orange-500 mb-1">4</div>
+                  <div className="text-3xl font-bold text-orange-500 mb-1"><CountUp end={4} /></div>
                   <div className="text-sm text-slate-600">Countries Served</div>
                 </div>
                 <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="text-3xl font-bold text-yellow-500 mb-1">13+</div>
+                  <div className="text-3xl font-bold text-yellow-500 mb-1"><CountUp end={13} suffix="+" /></div>
                   <div className="text-sm text-slate-600">Programs Offered</div>
                 </div>
                 <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="text-3xl font-bold text-green-500 mb-1">6</div>
+                  <div className="text-3xl font-bold text-green-500 mb-1"><CountUp end={6} /></div>
                   <div className="text-sm text-slate-600">Core Approach Areas</div>
                 </div>
                 <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
@@ -875,116 +938,54 @@ educateconfluenceconsulting@gmail.com
       )}
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-            {/* Brand */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10">
-                  <svg viewBox="0 0 100 100" className="w-full h-full">
-                    <path d="M20 50 Q20 20 50 20 Q80 20 80 50 Q80 80 50 80 Q20 80 20 50" fill="none" stroke="url(#fOrangeGrad)" strokeWidth="8" strokeLinecap="round"/>
-                    <path d="M80 50 Q80 20 50 20 Q20 20 20 50 Q20 80 50 80 Q80 80 80 50" fill="none" stroke="url(#fBlueGrad)" strokeWidth="8" strokeLinecap="round" transform="rotate(180 50 50)"/>
-                    <line x1="25" y1="50" x2="75" y2="50" stroke="#F97316" strokeWidth="8" strokeLinecap="round"/>
-                    <line x1="50" y1="15" x2="50" y2="85" stroke="url(#fYellowGrad)" strokeWidth="8" strokeLinecap="round"/>
-                    <defs>
-                      <linearGradient id="fOrangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#F97316"/>
-                        <stop offset="100%" stopColor="#FBBF24"/>
-                      </linearGradient>
-                      <linearGradient id="fBlueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#22C55E"/>
-                        <stop offset="100%" stopColor="#0EA5E9"/>
-                      </linearGradient>
-                      <linearGradient id="fYellowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#FBBF24"/>
-                        <stop offset="100%" stopColor="#F97316"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-                <div>
-                  <div className="font-bold text-lg">Educate Confluence</div>
-                  <div className="text-xs text-slate-400 uppercase tracking-wider">Consulting Enterprise</div>
-                </div>
-              </div>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Educating Minds. Empowering Futures. Transforming Communities across Nigeria, the UK, USA and Canada.
-              </p>
-              <div className="flex gap-3">
-                {[Globe, MessageCircle, Mail, Phone].map((Icon, i) => (
-                  <a key={i} href="#" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-gradient-to-r hover:from-orange-500 hover:to-yellow-500 transition-all duration-300 group">
-                    <Icon className="w-5 h-5 text-slate-400 group-hover:text-white" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Links */}
+      <footer className="relative overflow-hidden bg-slate-950 text-white">
+        <div className="pointer-events-none absolute -right-24 top-0 h-80 w-80 rounded-full bg-blue-500/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 left-1/4 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10  py-14 lg:grid-cols-[1.25fr_.75fr] lg:items-end lg:py-20">
             <div>
-              <h4 className="font-semibold text-white mb-6">Quick Links</h4>
-              <ul className="space-y-3">
-                {['About Us', 'Our Programs', 'For Schools', 'For Educators', 'Contact'].map((link, i) => (
-                  <li key={i}>
-                    <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{link}</a>
-                  </li>
-                ))}
-              </ul>
+              <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] text-yellow-300"><span className="h-px w-10 bg-yellow-300" /> Education without borders</p>
+              <h2 className="max-w-3xl text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl">Where possibility meets <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-300 to-green-400">purpose.</span></h2>
             </div>
-
-            {/* Programs */}
-            <div>
-              <h4 className="font-semibold text-white mb-6">Programs</h4>
-              <ul className="space-y-3">
-                {['SAT Prep', 'STEAM', 'Coding & Robotics', 'Public Speaking', 'Teacher Training'].map((link, i) => (
-                  <li key={i}>
-                    <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{link}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h4 className="font-semibold text-white mb-6">Contact</h4>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3 text-sm text-slate-400">
-                  <MapPin className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span>Operating across Nigeria, UK, USA & Canada</span>
-                </li>
-                <li className="flex items-center gap-3 text-sm text-slate-400">
-                  <Mail className="w-5 h-5 text-yellow-500 flex-shrink-0" />
-                  <span>hello@educateconfluence.com</span>
-                </li>
-                <li className="flex items-center gap-3 text-sm text-slate-400">
-                  <Phone className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span>+234 XXX XXX XXXX</span>
-                </li>
-              </ul>
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm sm:p-8">
+              <p className="text-lg font-semibold">Ready to create meaningful change?</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">Let’s build an education experience that equips people to flourish.</p>
+              <button onClick={openConsultationForm} className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-yellow-300">Start a conversation <ArrowRight className="h-4 w-4" /></button>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-center md:text-left">
-              <p className="text-slate-500 text-sm">
-                © 2026 Educate Confluence Consulting Enterprise. All rights reserved.
-              </p>
-              <p className="mt-1 text-xs text-slate-500">
-                Website produced by{' '}
-                <a
-                  href="https://oriarebun-princeton-portfolio.vercel.app"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-medium text-slate-300 hover:text-white transition-colors"
-                >
-                  Oriarebun Princeton
-                </a>
-              </p>
+          <div className="grid gap-10 py-12 md:grid-cols-[1.2fr_.75fr_1fr] lg:gap-16">
+            <div>
+              <div className="flex items-center gap-3">
+                <img src="/nav-logo.png" alt="Educate Confluence logo" className="h-16 w-24 object-contain" />
+                <div><div className="font-bold text-lg">Educate Confluence</div><div className="text-[10px] font-medium uppercase tracking-[0.18em] text-slate-400">Consulting Enterprise</div></div>
+              </div>
+              <p className="mt-6 max-w-sm text-sm leading-7 text-slate-400">Educating minds, empowering futures and transforming communities with learner-centred education.</p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {['Nigeria', 'United Kingdom', 'USA', 'Canada'].map((country) => <span key={country} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-300">{country}</span>)}
+              </div>
             </div>
-            <div className="flex gap-6 text-sm text-slate-500">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">Explore</h3>
+              <div className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-400">
+                {[['About us', 'about'], ['Our approach', 'approach'], ['Programs', 'programs'], ['Who we serve', 'audience']].map(([label, id]) => <button key={id} onClick={() => scrollToSection(id)} className="group flex items-center gap-2 text-left transition hover:text-white"><ChevronRight className="h-3.5 w-3.5 text-orange-400 transition group-hover:translate-x-1" />{label}</button>)}
+              </div>
             </div>
+
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">Connect with us</h3>
+              <div className="mt-5 space-y-4 text-sm">
+                <a href="mailto:educateconfluenceconsulting@gmail.com" className="group flex items-start gap-3 text-slate-400 transition hover:text-white"><span className="rounded-lg bg-yellow-400/10 p-2 text-yellow-300"><Mail className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Email us</span>educateconfluenceconsulting@gmail.com</span></a>
+                <a href="tel:+2347067354647" className="group flex items-start gap-3 text-slate-400 transition hover:text-white"><span className="rounded-lg bg-green-400/10 p-2 text-green-300"><Phone className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Call us</span>+234 706 735 4647</span></a>
+                <div className="flex items-start gap-3 text-slate-400"><span className="rounded-lg bg-orange-400/10 p-2 text-orange-300"><MapPin className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Our reach</span>Nigeria · UK · USA · Canada</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 border-t border-white/10 py-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <div><p>© 2026 Educate Confluence Consulting Enterprise.</p><p className="mt-1">Website produced by <a href="https://oriarebun-princeton-portfolio.vercel.app" target="_blank" rel="noreferrer" className="font-semibold text-slate-300 transition hover:text-white">Oriarebun Princeton</a></p></div>
+            <div className="flex gap-5"><a href="#" className="transition hover:text-white">Privacy Policy</a><a href="#" className="transition hover:text-white">Terms of Service</a></div>
           </div>
         </div>
       </footer>
