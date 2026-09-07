@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import heroIllustration from './assets/educate-confluence-hero.svg';
+import heroIllustration from '/hero.png';
 import { 
   BookOpen, 
   Users, 
