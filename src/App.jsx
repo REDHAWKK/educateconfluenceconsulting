@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import heroIllustration from '/hero.png';
 import { 
   BookOpen, 
@@ -19,17 +19,13 @@ import {
   MessageCircle,
   Calculator,
   Atom,
-  Code,
-  Telescope,
-  Languages,
   Wallet,
-  Mic,
-  PenTool,
-  UserCheck,
   School,
   MapPin,
   Phone,
-  Mail
+  Mail,
+  Moon,
+  Sun
 } from 'lucide-react';
 
 const CountUp = ({ end, suffix = '', duration = 1400 }) => {
@@ -59,7 +55,7 @@ const CountUp = ({ end, suffix = '', duration = 1400 }) => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
 
     const elements = Array.from(document.querySelectorAll(
-      'nav, section h1, section h2, section h3, section p, section .group, section form, footer h2, footer h3, footer p, footer .rounded-3xl'
+      'section h1, section h2, section h3, section p, section .group, section form, footer h2, footer h3, footer p, footer .rounded-3xl'
     )).filter((element) => !element.closest('[data-static-footer]'));
 
     elements.forEach((element, index) => {
@@ -110,9 +106,37 @@ const CountUp = ({ end, suffix = '', duration = 1400 }) => {
 const EducateConfluence = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = window.localStorage.getItem('educate-confluence-theme');
+    return savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
   const [activeSection, setActiveSection] = useState('');
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [consultationSubmitted, setConsultationSubmitted] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark-mode', isDarkMode);
+    window.localStorage.setItem('educate-confluence-theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  const toggleTheme = () => setIsDarkMode((currentMode) => !currentMode);
+
+  useEffect(() => {
+    if (!isMenuOpen) return undefined;
+
+    const handleMenuKeyDown = (event) => {
+      if (event.key === 'Escape') setIsMenuOpen(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleMenuKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleMenuKeyDown);
+    };
+  }, [isMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -176,7 +200,7 @@ const EducateConfluence = () => {
   const approachAreas = [
     {
       title: 'Academic Excellence',
-      description: 'Rigorous, standards-aligned instruction that builds strong foundations and critical thinking skills.',
+      description: 'High-quality, standards-aligned instruction that builds strong foundations, confidence, and critical thinking skills.',
       icon: <BookOpen className="w-8 h-8" />,
       color: 'from-orange-400 to-orange-500',
       bgColor: 'bg-orange-50',
@@ -271,16 +295,16 @@ const EducateConfluence = () => {
   ];
 
   const countries = [
-    { name: 'Nigeria', flag: '🇳🇬', color: 'from-green-500 to-emerald-600' },
-    { name: 'United Kingdom', flag: '🇬🇧', color: 'from-blue-500 to-indigo-600' },
-    { name: 'USA', flag: '🇺🇸', color: 'from-orange-500 to-red-500' },
-    { name: 'Canada', flag: '🇨🇦', color: 'from-red-500 to-rose-600' },
+    { name: 'Nigeria', flagSrc: '/flags/nigeria.svg', color: 'from-green-500 to-emerald-600' },
+    { name: 'United Kingdom', flagSrc: '/flags/united-kingdom.svg', color: 'from-blue-500 to-indigo-600' },
+    { name: 'USA', flagSrc: '/flags/usa.svg', color: 'from-orange-500 to-red-500' },
+    { name: 'Canada', flagSrc: '/flags/canada.svg', color: 'from-red-500 to-rose-600' },
   ];
 
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-orange-100 selection:text-orange-800">
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-slate-100' : 'bg-transparent'}`}>
+      <nav className={`nav-shell fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -308,6 +332,19 @@ const EducateConfluence = () => {
                   <span className={`absolute bottom-1 left-4 right-4 h-0.5 origin-left rounded-full bg-gradient-to-r from-orange-500 via-yellow-400 to-green-500 transition-transform duration-500 ease-out ${activeSection === link.id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
                 </button>
               ))}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+                aria-pressed={isDarkMode}
+                className="theme-toggle ml-3"
+              >
+                <span className="theme-toggle-track">
+                  <Sun className="theme-toggle-icon theme-toggle-sun" aria-hidden="true" />
+                  <Moon className="theme-toggle-icon theme-toggle-moon" aria-hidden="true" />
+                  <span className="theme-toggle-thumb" />
+                </span>
+              </button>
               <button 
                 onClick={() => scrollToSection('contact')}
                 className="group relative ml-4 overflow-hidden px-6 py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-orange-200 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
@@ -318,7 +355,11 @@ const EducateConfluence = () => {
 
             {/* Mobile Menu Button */}
             <button 
-              className="lg:hidden p-2 text-slate-700"
+              type="button"
+              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
+              className="lg:hidden rounded-xl p-2 text-slate-700 transition-colors hover:bg-slate-100"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -326,29 +367,75 @@ const EducateConfluence = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-slate-100 shadow-xl">
-            <div className="px-6 py-4 space-y-1">
+      </nav>
+
+      {/* Mobile Navigation Drawer */}
+      <div
+        className={`mobile-menu-backdrop lg:hidden ${isMenuOpen ? 'is-open' : ''}`}
+        aria-hidden="true"
+        onClick={() => setIsMenuOpen(false)}
+      />
+      <aside
+        id="mobile-navigation"
+        aria-label="Mobile navigation"
+        aria-hidden={!isMenuOpen}
+        inert={!isMenuOpen ? '' : undefined}
+        className={`mobile-menu-panel lg:hidden ${isMenuOpen ? 'is-open' : ''}`}
+      >
+          <div className="flex items-center justify-between border-b border-slate-200/80 px-6 py-5 dark:border-white/10">
+            <div className="flex items-center gap-3">
+              <img src="/nav-logo.png" alt="Educate Confluence logo" className="h-11 w-14 object-contain" />
+              <div>
+                <p className="text-sm font-bold text-slate-900 dark:text-white">Educate Confluence</p>
+                <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-slate-500">Consulting Enterprise</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              aria-label="Close navigation menu"
+              onClick={() => setIsMenuOpen(false)}
+              className="rounded-xl p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="flex h-[calc(100%-5.5rem)] flex-col overflow-y-auto px-6 py-7">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Explore</p>
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+                aria-pressed={isDarkMode}
+                className="theme-toggle mb-5"
+              >
+                <span className="theme-toggle-track">
+                  <Sun className="theme-toggle-icon theme-toggle-sun" aria-hidden="true" />
+                  <Moon className="theme-toggle-icon theme-toggle-moon" aria-hidden="true" />
+                  <span className="theme-toggle-thumb" />
+                </span>
+                <span className="ml-3 text-sm font-medium text-slate-600">{isDarkMode ? 'Light mode' : 'Dark mode'}</span>
+              </button>
               {navLinks.map((link) => (
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
-                  className={`group flex w-full items-center justify-between rounded-xl px-4 py-3 text-left font-medium transition-all duration-300 ${activeSection === link.id ? 'bg-orange-50 text-orange-700' : 'text-slate-700 hover:bg-slate-50 hover:pl-5'}`}
+                  className={`group flex w-full items-center justify-between rounded-2xl border px-4 py-3.5 text-left font-medium transition-all duration-300 ${activeSection === link.id ? 'border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-500/30 dark:bg-orange-500/10 dark:text-orange-300' : 'border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-50 hover:pl-5 dark:text-slate-300 dark:hover:border-white/10 dark:hover:bg-white/5'}`}
                 >
                   {link.name}<ChevronRight className={`h-4 w-4 transition-all duration-300 ${activeSection === link.id ? 'translate-x-0 text-orange-500' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`} />
                 </button>
               ))}
-              <button 
-                onClick={() => scrollToSection('contact')}
-                className="w-full mt-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold rounded-full"
-              >
-                Get Started
-              </button>
             </div>
+
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="mt-auto flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-yellow-500 px-6 py-4 font-semibold text-white shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            >
+              Get Started <ArrowRight className="h-4 w-4" />
+            </button>
           </div>
-        )}
-      </nav>
+      </aside>
 
       {/* Hero Section */}
       <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-white">
@@ -376,7 +463,7 @@ const EducateConfluence = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-32 w-full">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-100 text-orange-700 text-sm font-medium">
+              <div className="hero-eyebrow inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-100 text-orange-700 text-sm font-medium">
                 <Heart className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                 Instilling a love for life-long learning
               </div>
@@ -389,7 +476,7 @@ const EducateConfluence = () => {
               </h1>
               
               <p className="text-lg lg:text-xl text-slate-600 leading-relaxed max-w-xl">
-                We partner with learners, educators and schools across Nigeria, the UK, USA and Canada to deliver world-class education that builds knowledge, skills and character.
+                We partner with learners, educators and schools across Nigeria, UK, USA and Canada to deliver world-class education that builds knowledge, skills and character.
               </p>
               
               <div className="flex flex-wrap gap-4">
@@ -406,6 +493,19 @@ const EducateConfluence = () => {
                 >
                   Get Started
                 </button>
+              </div>
+
+              <div className="relative lg:hidden">
+                <div className="relative aspect-square max-w-lg mx-auto">
+                  <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-orange-50 via-yellow-50 to-green-50 rotate-3" aria-hidden="true"></div>
+                  <div className="mobile-hero-card relative flex h-full items-center justify-center overflow-hidden rounded-[2.5rem] border shadow-2xl">
+                    <img
+                      src={heroIllustration}
+                      alt="Three learners gathered around a globe with flowing rainbow ribbons"
+                      className="h-full w-full -translate-y-3 object-contain p-3 sm:p-6"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center gap-6 pt-4">
@@ -435,8 +535,8 @@ const EducateConfluence = () => {
 
         {/* Bottom wave */}
         <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 120" fill="none" className="w-full">
-            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F8FAFC"/>
+          <svg viewBox="0 0 1440 120" fill="none" className="hero-wave w-full" aria-hidden="true">
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" />
           </svg>
         </div>
       </section>
@@ -457,27 +557,27 @@ const EducateConfluence = () => {
               
               <div className="space-y-4 text-slate-600 text-lg leading-relaxed">
                 <p>
-                  Educate Confluence Consulting Enterprise is a forward-thinking education organisation committed to transforming how young people learn, grow and lead. Founded on the belief that quality education is the foundation of thriving communities, we bring together expertise from across four nations.
+                  Educate Confluence Consulting Enterprise is a forward-thinking educational organisation committed to transforming how young people learn, grow and lead. Founded on the belief that quality education is the foundation of thriving communities, we bring together expertise from across four nations.
                 </p>
                 <p>
-                  Our approach is neither conventional nor complacent. We combine rigorous academic standards with creative STEAM experiences, practical life skills and character development to produce well-rounded individuals ready for an ever-changing world.
+                  Our approach is neither conventional nor complacent. We combine high-quality learning with creative STEAM experiences, practical life skills, and character development to nurture well-rounded individuals who are confident, capable, and ready to thrive in an ever-changing world.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 sm:gap-6 pt-4">
-                <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-none">
                   <div className="text-3xl font-bold text-orange-500 mb-1"><CountUp end={4} /></div>
                   <div className="text-sm text-slate-600">Countries Served</div>
                 </div>
-                <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-none">
                   <div className="text-3xl font-bold text-yellow-500 mb-1"><CountUp end={13} suffix="+" /></div>
                   <div className="text-sm text-slate-600">Programs Offered</div>
                 </div>
-                <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-none">
                   <div className="text-3xl font-bold text-green-500 mb-1"><CountUp end={6} /></div>
                   <div className="text-sm text-slate-600">Core Approach Areas</div>
                 </div>
-                <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-none">
                   <div className="text-3xl font-bold text-blue-500 mb-1">∞</div>
                   <div className="text-sm text-slate-600">Possibilities Created</div>
                 </div>
@@ -486,12 +586,12 @@ const EducateConfluence = () => {
 
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-orange-100 to-yellow-100 rounded-[2.5rem] rotate-2"></div>
-              <div className="relative bg-white rounded-[2rem] p-8 shadow-xl border border-slate-100">
+              <div className="relative bg-white rounded-[2rem] p-8 shadow-none border border-slate-100">
                 <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-4">
                   <div className="space-y-4">
                     <div className="p-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl border border-orange-200">
                       <BookOpen className="w-8 h-8 text-orange-500 mb-3" />
-                      <div className="font-semibold text-slate-800">Academic Rigor</div>
+                      <div className="font-semibold text-slate-800">Academic Excellence</div>
                       <div className="text-sm text-slate-600 mt-1">Standards-aligned excellence</div>
                     </div>
                     <div className="p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl border border-green-200">
@@ -532,7 +632,7 @@ const EducateConfluence = () => {
               Six pillars of <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">holistic education</span>
             </h2>
             <p className="text-lg text-slate-600">
-              We do not teach subjects in isolation. Our integrated approach develops the whole child — mind, skills and character.
+              We do not teach subjects in isolation. Our integrated approach develops the whole mind, skills and character.
             </p>
           </div>
 
@@ -540,11 +640,11 @@ const EducateConfluence = () => {
             {approachAreas.map((area, index) => (
               <div 
                 key={index}
-                className={`group relative p-8 rounded-3xl border-2 ${area.borderColor} ${area.bgColor} hover:bg-white transition-all duration-500 hover:shadow-xl hover:-translate-y-2 cursor-pointer overflow-hidden`}
+                className={`group relative p-8 rounded-3xl border-2 ${area.borderColor} ${area.bgColor} hover:bg-white transition-all duration-500 shadow-none hover:shadow-none hover:-translate-y-1 cursor-pointer overflow-hidden`}
               >
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${area.color} opacity-10 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`}></div>
                 
-                <div className={`inline-flex p-4 rounded-2xl bg-white shadow-sm mb-6 ${area.iconColor}`}>
+                <div className={`inline-flex p-4 rounded-2xl bg-white shadow-none mb-6 ${area.iconColor}`}>
                   {area.icon}
                 </div>
                 
@@ -586,7 +686,7 @@ const EducateConfluence = () => {
             {programs.map((program, index) => (
               <div 
                 key={index}
-                className="group p-6 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                className="group p-6 bg-white rounded-2xl border border-slate-100 shadow-none hover:shadow-none transition-all duration-300 hover:-translate-y-1 cursor-pointer"
               >
                 <div className={`inline-flex p-3 rounded-xl ${program.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
                   {program.icon}
@@ -626,7 +726,7 @@ const EducateConfluence = () => {
             {audiences.map((audience, index) => (
               <div 
                 key={index}
-                className="group relative bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden"
+                className="group relative bg-white rounded-3xl border border-slate-100 shadow-none hover:shadow-none transition-all duration-500 overflow-hidden"
               >
                 <div className={`h-2 bg-gradient-to-r ${audience.color}`}></div>
                 <div className="p-8">
@@ -703,7 +803,7 @@ const EducateConfluence = () => {
                     Vision
                   </h3>
                   <p className="text-slate-300 leading-relaxed">
-                    A world where every child, regardless of geography or circumstance, has access to education that unlocks their full potential and empowers them to lead with wisdom and compassion.
+                    A world where every child, regardless of their geographical location or circumstance, has access to education that unlocks their full potential and empowers them to lead with wisdom and compassion.
                   </p>
                 </div>
               </div>
@@ -762,10 +862,14 @@ const EducateConfluence = () => {
             {countries.map((country, index) => (
               <div 
                 key={index}
-                className="group relative p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500 hover:-translate-y-2 text-center overflow-hidden"
+                className="group relative p-8 rounded-3xl bg-slate-50 border border-slate-100 shadow-none hover:bg-white hover:shadow-none transition-all duration-500 hover:-translate-y-1 text-center overflow-hidden"
               >
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${country.color}`}></div>
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{country.flag}</div>
+                <img
+                  className="country-flag mb-4 object-cover group-hover:scale-110 transition-transform duration-300"
+                  src={country.flagSrc}
+                  alt={`${country.name} flag`}
+                />
                 <h3 className="text-xl font-bold text-slate-900">{country.name}</h3>
                 <div className="mt-4 flex items-center justify-center gap-2 text-sm text-slate-500">
                   <MapPin className="w-4 h-4" />
@@ -812,8 +916,8 @@ const EducateConfluence = () => {
               <div className="pt-8 flex flex-wrap justify-center gap-8 text-sm text-slate-500">
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-orange-500" />
-                  <span>+234 706 735 4647</span>
-                </div>
+                  <span>+234 813 991 8218</span><span> +234 706 735 4647</span>
+                  </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-yellow-500" />
                   <span>
@@ -926,7 +1030,14 @@ educateconfluenceconsulting@gmail.com
               <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">Connect with us</h3>
               <div className="mt-5 space-y-4 text-sm">
                 <a href="mailto:educateconfluenceconsulting@gmail.com" className="group flex items-start gap-3 text-slate-400 transition hover:text-white"><span className="rounded-lg bg-yellow-400/10 p-2 text-yellow-300"><Mail className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Email us</span>educateconfluenceconsulting@gmail.com</span></a>
-                <a href="tel:+2347067354647" className="group flex items-start gap-3 text-slate-400 transition hover:text-white"><span className="rounded-lg bg-green-400/10 p-2 text-green-300"><Phone className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Call us</span>+234 706 735 4647</span></a>
+                <div className="flex items-start gap-3 text-slate-400">
+                  <span className="rounded-lg bg-green-400/10 p-2 text-green-300"><Phone className="h-4 w-4" /></span>
+                  <span>
+                    <span className="block text-xs text-slate-500">Call us</span>
+                    <a href="tel:+2348139918218" className="block transition hover:text-white">+234 813 991 8218</a>
+                    <a href="tel:+2347067354647" className="mt-1 block transition hover:text-white">+234 706 735 4647</a>
+                  </span>
+                </div>
                 <div className="flex items-start gap-3 text-slate-400"><span className="rounded-lg bg-orange-400/10 p-2 text-orange-300"><MapPin className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Our reach</span>Nigeria · UK · USA · Canada</span></div>
               </div>
             </div>
