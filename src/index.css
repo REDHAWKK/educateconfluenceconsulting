@@ -6,25 +6,32 @@ html {
 
 html,
 body {
-  transition: background-color 500ms ease, color 500ms ease;
+  transition: background-color 180ms ease-out, color 180ms ease-out;
+}
+
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition-duration: 180ms !important;
+  transition-timing-function: ease-out !important;
 }
 body {
   overflow-x: clip !important;
 }
 .hero-wave {
   color: #f8fafc;
-  transition: color 500ms ease;
+  transition: color 180ms ease-out;
 }
 
 .hero-eyebrow {
-  transition: background-color 500ms ease, border-color 500ms ease, color 500ms ease;
+  transition: background-color 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out;
 }
 
 .mobile-hero-card {
   border-color: #e2e8f0;
   background: #ffffff;
   box-shadow: 0 25px 50px rgb(15 23 42 / 12%);
-  transition: background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease;
+  transition: background-color 180ms ease-out, border-color 180ms ease-out, box-shadow 180ms ease-out;
 }
 
 .nav-shell {

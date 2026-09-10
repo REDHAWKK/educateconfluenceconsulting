@@ -1,5 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import heroIllustration from '/hero.png';
+import About from './About.jsx';
+import Programs from './Programs.jsx';
 import { 
   BookOpen, 
   Users, 
@@ -110,6 +112,7 @@ const EducateConfluence = () => {
     const savedTheme = window.localStorage.getItem('educate-confluence-theme');
     return savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
+  const themeTransitionTimeoutRef = useRef(null);
   const [activeSection, setActiveSection] = useState('');
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [consultationSubmitted, setConsultationSubmitted] = useState(false);
@@ -119,7 +122,15 @@ const EducateConfluence = () => {
     window.localStorage.setItem('educate-confluence-theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
-  const toggleTheme = () => setIsDarkMode((currentMode) => !currentMode);
+  const toggleTheme = () => {
+    document.documentElement.classList.add('theme-transitioning');
+    setIsDarkMode((currentMode) => !currentMode);
+
+    window.clearTimeout(themeTransitionTimeoutRef.current);
+    themeTransitionTimeoutRef.current = window.setTimeout(() => {
+      document.documentElement.classList.remove('theme-transitioning');
+    }, 220);
+  };
 
   useEffect(() => {
     if (!isMenuOpen) return undefined;
@@ -924,10 +935,10 @@ const EducateConfluence = () => {
 educateconfluenceconsulting@gmail.com
 </span>
                 </div>
-                {/* <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <Globe className="w-4 h-4 text-green-500" />
-                  <span>www.educateconfluence.com</span>
-                </div> */}
+                  <span>educateconfluence.com.ng</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1053,4 +1064,12 @@ educateconfluenceconsulting@gmail.com
   );
 };
 
-export default EducateConfluence;
+const App = () => {
+  const path = window.location.pathname.replace(/\/$/, '') || '/';
+
+  if (path === '/about') return <About />;
+  if (path === '/programs') return <Programs />;
+  return <EducateConfluence />;
+};
+
+export default App;
