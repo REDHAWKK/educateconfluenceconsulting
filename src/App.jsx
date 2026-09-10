@@ -937,7 +937,7 @@ educateconfluenceconsulting@gmail.com
                 </div>
                 <div className="flex items-center gap-2">
                   <Globe className="w-4 h-4 text-green-500" />
-                  <span>educateconfluence.com.ng</span>
+                  <span>www.educateconfluence.com.ng</span>
                 </div>
               </div>
             </div>

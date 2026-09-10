@@ -3,7 +3,6 @@ import {
   ArrowRight,
   Award,
   BookOpen,
-  Globe,
   Heart,
   Lightbulb,
   MessageCircle,
@@ -12,7 +11,7 @@ import {
   Users,
 } from 'lucide-react';
 
-const DOMAIN = 'https://educateconfluence.com.ng';
+const DOMAIN = 'https://www.educateconfluence.com.ng';
 
 const Seo = () => {
   useEffect(() => {
