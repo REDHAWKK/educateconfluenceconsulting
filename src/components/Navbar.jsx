@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRight, ChevronRight, Menu, Moon, Sun, X } from 'lucide-react';
 
 const homeLinks = [
@@ -28,7 +28,6 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(getStoredTheme);
-  const themeTransitionTimeoutRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark-mode', isDarkMode);
@@ -67,15 +66,13 @@ const Navbar = () => {
     };
   }, [isMenuOpen]);
 
-  useEffect(() => () => window.clearTimeout(themeTransitionTimeoutRef.current), []);
-
   const toggleTheme = () => {
-    document.documentElement.classList.add('theme-transitioning');
-    setIsDarkMode((currentMode) => !currentMode);
-    window.clearTimeout(themeTransitionTimeoutRef.current);
-    themeTransitionTimeoutRef.current = window.setTimeout(() => {
-      document.documentElement.classList.remove('theme-transitioning');
-    }, 140);
+    setIsDarkMode((currentMode) => {
+      const nextMode = !currentMode;
+      document.documentElement.classList.toggle('dark-mode', nextMode);
+      window.localStorage.setItem('educate-confluence-theme', nextMode ? 'dark' : 'light');
+      return nextMode;
+    });
   };
 
   const closeMenu = () => setIsMenuOpen(false);

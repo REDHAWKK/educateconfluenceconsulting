@@ -6,21 +6,18 @@ html {
 
 html,
 body {
-  transition: background-color 120ms ease-out, color 120ms ease-out;
+  transition: none;
 }
 
-html.theme-transitioning,
-html.theme-transitioning body,
-html.theme-transitioning .nav-shell,
-html.theme-transitioning .mobile-menu-panel,
-html.theme-transitioning .mobile-hero-card,
-html.theme-transitioning .hero-wave,
-html.theme-transitioning .hero-eyebrow,
-html.theme-transitioning .theme-toggle-track,
-html.theme-transitioning .theme-toggle-thumb,
-html.theme-transitioning .theme-toggle-icon {
-  transition-duration: 120ms !important;
-  transition-timing-function: ease-out !important;
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+html.theme-transitioning .theme-toggle-thumb {
+  transition: transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 body {
   overflow-x: clip !important;
@@ -71,7 +68,7 @@ body {
   border: 1px solid #cbd5e1;
   border-radius: 999px;
   background: #f1f5f9;
-  transition: background-color 400ms ease, border-color 400ms ease;
+  transition: none;
 }
 
 .theme-toggle-icon {
@@ -79,7 +76,7 @@ body {
   z-index: 1;
   width: 0.8rem;
   height: 0.8rem;
-  transition: color 400ms ease, transform 400ms ease;
+  transition: none;
 }
 
 .theme-toggle-sun { color: #f59e0b; }
@@ -95,7 +92,7 @@ body {
   border-radius: 50%;
   background: white;
   box-shadow: 0 2px 6px rgb(15 23 42 / 20%);
-  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1), background-color 400ms ease;
+  transition: transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .country-flag {
