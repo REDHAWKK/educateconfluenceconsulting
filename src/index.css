@@ -6,13 +6,20 @@ html {
 
 html,
 body {
-  transition: background-color 180ms ease-out, color 180ms ease-out;
+  transition: background-color 120ms ease-out, color 120ms ease-out;
 }
 
-html.theme-transitioning *,
-html.theme-transitioning *::before,
-html.theme-transitioning *::after {
-  transition-duration: 180ms !important;
+html.theme-transitioning,
+html.theme-transitioning body,
+html.theme-transitioning .nav-shell,
+html.theme-transitioning .mobile-menu-panel,
+html.theme-transitioning .mobile-hero-card,
+html.theme-transitioning .hero-wave,
+html.theme-transitioning .hero-eyebrow,
+html.theme-transitioning .theme-toggle-track,
+html.theme-transitioning .theme-toggle-thumb,
+html.theme-transitioning .theme-toggle-icon {
+  transition-duration: 120ms !important;
   transition-timing-function: ease-out !important;
 }
 body {
@@ -20,18 +27,18 @@ body {
 }
 .hero-wave {
   color: #f8fafc;
-  transition: color 180ms ease-out;
+  transition: color 120ms ease-out;
 }
 
 .hero-eyebrow {
-  transition: background-color 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out;
+  transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
 }
 
 .mobile-hero-card {
   border-color: #e2e8f0;
   background: #ffffff;
   box-shadow: 0 25px 50px rgb(15 23 42 / 12%);
-  transition: background-color 180ms ease-out, border-color 180ms ease-out, box-shadow 180ms ease-out;
+  transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
 }
 
 .nav-shell {

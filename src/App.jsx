@@ -2,6 +2,8 @@ import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import heroIllustration from '/hero.png';
 import About from './About.jsx';
 import Programs from './Programs.jsx';
+import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
 import { 
   BookOpen, 
   Users, 
@@ -12,7 +14,6 @@ import {
   Target, 
   Zap, 
   ArrowRight, 
-  Menu, 
   X,
   ChevronRight,
   Star,
@@ -26,8 +27,6 @@ import {
   MapPin,
   Phone,
   Mail,
-  Moon,
-  Sun
 } from 'lucide-react';
 
 const CountUp = ({ end, suffix = '', duration = 1400 }) => {
@@ -106,70 +105,13 @@ const CountUp = ({ end, suffix = '', duration = 1400 }) => {
 };
 
 const EducateConfluence = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedTheme = window.localStorage.getItem('educate-confluence-theme');
-    return savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
-  const themeTransitionTimeoutRef = useRef(null);
-  const [activeSection, setActiveSection] = useState('');
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [consultationSubmitted, setConsultationSubmitted] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark-mode', isDarkMode);
-    window.localStorage.setItem('educate-confluence-theme', isDarkMode ? 'dark' : 'light');
-  }, [isDarkMode]);
-
-  const toggleTheme = () => {
-    document.documentElement.classList.add('theme-transitioning');
-    setIsDarkMode((currentMode) => !currentMode);
-
-    window.clearTimeout(themeTransitionTimeoutRef.current);
-    themeTransitionTimeoutRef.current = window.setTimeout(() => {
-      document.documentElement.classList.remove('theme-transitioning');
-    }, 220);
-  };
-
-  useEffect(() => {
-    if (!isMenuOpen) return undefined;
-
-    const handleMenuKeyDown = (event) => {
-      if (event.key === 'Escape') setIsMenuOpen(false);
-    };
-    const previousOverflow = document.body.style.overflow;
-
-    document.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', handleMenuKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener('keydown', handleMenuKeyDown);
-    };
-  }, [isMenuOpen]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-
-      const sections = Array.from(document.querySelectorAll('section[id]'));
-      const currentSection = sections.reduce((activeId, section) => (
-        section.getBoundingClientRect().top <= 160 ? section.id : activeId
-      ), '');
-      setActiveSection(currentSection);
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(id);
-      setIsMenuOpen(false);
     }
   };
 
@@ -198,15 +140,6 @@ const EducateConfluence = () => {
     dark: '#1E293B',
     light: '#F8FAFC'
   };
-
-  const navLinks = [
-    { name: 'About', id: 'about' },
-    { name: 'Approach', id: 'approach' },
-    { name: 'Programs', id: 'programs' },
-    { name: 'Audience', id: 'audience' },
-    { name: 'Mission', id: 'mission' },
-    { name: 'Contact', id: 'contact' },
-  ];
 
   const approachAreas = [
     {
@@ -314,139 +247,7 @@ const EducateConfluence = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-orange-100 selection:text-orange-800">
-      {/* Navigation */}
-      <nav className={`nav-shell fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'is-scrolled' : ''}`}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('hero')}>
-              <img src="/nav-logo.png" alt="Educate Confluence logo" className="h-12 w-16 object-contain sm:h-14 sm:w-20" />
-              <div className="flex flex-col">
-                <span className={`text-lg font-bold tracking-tight ${scrolled ? 'text-slate-900' : 'text-slate-900'}`}>
-                  Educate Confluence
-                </span>
-                <span className={`text-[10px] uppercase tracking-widest font-medium ${scrolled ? 'text-slate-500' : 'text-slate-500'}`}>
-                  Consulting Enterprise
-                </span>
-              </div>
-            </div>
-
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
-                  className={`group relative overflow-hidden px-4 py-2 text-sm font-medium transition-colors duration-300 ${activeSection === link.id ? 'text-slate-950' : 'text-slate-600 hover:text-slate-900'}`}
-                >
-                  <span className="relative z-10">{link.name}</span>
-                  <span className={`absolute bottom-1 left-4 right-4 h-0.5 origin-left rounded-full bg-gradient-to-r from-orange-500 via-yellow-400 to-green-500 transition-transform duration-500 ease-out ${activeSection === link.id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
-                </button>
-              ))}
-              <button
-                type="button"
-                onClick={toggleTheme}
-                aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
-                aria-pressed={isDarkMode}
-                className="theme-toggle ml-3"
-              >
-                <span className="theme-toggle-track">
-                  <Sun className="theme-toggle-icon theme-toggle-sun" aria-hidden="true" />
-                  <Moon className="theme-toggle-icon theme-toggle-moon" aria-hidden="true" />
-                  <span className="theme-toggle-thumb" />
-                </span>
-              </button>
-              <button 
-                onClick={() => scrollToSection('contact')}
-                className="group relative ml-4 overflow-hidden px-6 py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-orange-200 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
-              >
-                <span className="relative z-10">Get Started</span><span className="absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/25 transition-transform duration-700 group-hover:translate-x-[500%]" />
-              </button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button 
-              type="button"
-              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-navigation"
-              className="lg:hidden rounded-xl p-2 text-slate-700 transition-colors hover:bg-slate-100"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-
-      </nav>
-
-      {/* Mobile Navigation Drawer */}
-      <div
-        className={`mobile-menu-backdrop lg:hidden ${isMenuOpen ? 'is-open' : ''}`}
-        aria-hidden="true"
-        onClick={() => setIsMenuOpen(false)}
-      />
-      <aside
-        id="mobile-navigation"
-        aria-label="Mobile navigation"
-        aria-hidden={!isMenuOpen}
-        inert={!isMenuOpen ? '' : undefined}
-        className={`mobile-menu-panel lg:hidden ${isMenuOpen ? 'is-open' : ''}`}
-      >
-          <div className="flex items-center justify-between border-b border-slate-200/80 px-6 py-5 dark:border-white/10">
-            <div className="flex items-center gap-3">
-              <img src="/nav-logo.png" alt="Educate Confluence logo" className="h-11 w-14 object-contain" />
-              <div>
-                <p className="text-sm font-bold text-slate-900 dark:text-white">Educate Confluence</p>
-                <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-slate-500">Consulting Enterprise</p>
-              </div>
-            </div>
-            <button
-              type="button"
-              aria-label="Close navigation menu"
-              onClick={() => setIsMenuOpen(false)}
-              className="rounded-xl p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-
-          <div className="flex h-[calc(100%-5.5rem)] flex-col overflow-y-auto px-6 py-7">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Explore</p>
-            <div className="space-y-2">
-              <button
-                type="button"
-                onClick={toggleTheme}
-                aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
-                aria-pressed={isDarkMode}
-                className="theme-toggle mb-5"
-              >
-                <span className="theme-toggle-track">
-                  <Sun className="theme-toggle-icon theme-toggle-sun" aria-hidden="true" />
-                  <Moon className="theme-toggle-icon theme-toggle-moon" aria-hidden="true" />
-                  <span className="theme-toggle-thumb" />
-                </span>
-                <span className="ml-3 text-sm font-medium text-slate-600">{isDarkMode ? 'Light mode' : 'Dark mode'}</span>
-              </button>
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
-                  className={`group flex w-full items-center justify-between rounded-2xl border px-4 py-3.5 text-left font-medium transition-all duration-300 ${activeSection === link.id ? 'border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-500/30 dark:bg-orange-500/10 dark:text-orange-300' : 'border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-50 hover:pl-5 dark:text-slate-300 dark:hover:border-white/10 dark:hover:bg-white/5'}`}
-                >
-                  {link.name}<ChevronRight className={`h-4 w-4 transition-all duration-300 ${activeSection === link.id ? 'translate-x-0 text-orange-500' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`} />
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="mt-auto flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-yellow-500 px-6 py-4 font-semibold text-white shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
-            >
-              Get Started <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-      </aside>
+      <Navbar />
 
       {/* Hero Section */}
       <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-white">
@@ -1001,65 +802,7 @@ educateconfluenceconsulting@gmail.com
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="relative overflow-hidden bg-slate-950 text-white">
-        <div className="pointer-events-none absolute -right-24 top-0 h-80 w-80 rounded-full bg-blue-500/15 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 left-1/4 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10  py-14 lg:grid-cols-[1.25fr_.75fr] lg:items-end lg:py-20">
-            <div>
-              <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] text-yellow-300"><span className="h-px w-10 bg-yellow-300" /> Education without borders</p>
-              <h2 className="max-w-3xl text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl">Where possibility meets <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-300 to-green-400">purpose.</span></h2>
-            </div>
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm sm:p-8">
-              <p className="text-lg font-semibold">Ready to create meaningful change?</p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">Let’s build an education experience that equips people to flourish.</p>
-              <button onClick={openConsultationForm} className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-yellow-300">Start a conversation <ArrowRight className="h-4 w-4" /></button>
-            </div>
-          </div>
-
-          <div className="grid gap-10 py-12 md:grid-cols-[1.2fr_.75fr_1fr] lg:gap-16">
-            <div>
-              <div className="flex items-center gap-3">
-                <img src="/nav-logo.png" alt="Educate Confluence logo" className="h-16 w-24 object-contain" />
-                <div><div className="font-bold text-lg">Educate Confluence</div><div className="text-[10px] font-medium uppercase tracking-[0.18em] text-slate-400">Consulting Enterprise</div></div>
-              </div>
-              <p className="mt-6 max-w-sm text-sm leading-7 text-slate-400">Educating minds, empowering futures and transforming communities with learner-centred education.</p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {['Nigeria', 'United Kingdom', 'USA', 'Canada'].map((country) => <span key={country} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-300">{country}</span>)}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">Explore</h3>
-              <div className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-400">
-                {[['About us', 'about'], ['Our approach', 'approach'], ['Programs', 'programs'], ['Who we serve', 'audience']].map(([label, id]) => <button key={id} onClick={() => scrollToSection(id)} className="group flex items-center gap-2 text-left transition hover:text-white"><ChevronRight className="h-3.5 w-3.5 text-orange-400 transition group-hover:translate-x-1" />{label}</button>)}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">Connect with us</h3>
-              <div className="mt-5 space-y-4 text-sm">
-                <a href="mailto:educateconfluenceconsulting@gmail.com" className="group flex items-start gap-3 text-slate-400 transition hover:text-white"><span className="rounded-lg bg-yellow-400/10 p-2 text-yellow-300"><Mail className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Email us</span>educateconfluenceconsulting@gmail.com</span></a>
-                <div className="flex items-start gap-3 text-slate-400">
-                  <span className="rounded-lg bg-green-400/10 p-2 text-green-300"><Phone className="h-4 w-4" /></span>
-                  <span>
-                    <span className="block text-xs text-slate-500">Call us</span>
-                    <a href="tel:+2348139918218" className="block transition hover:text-white">+234 813 991 8218</a>
-                    <a href="tel:+2347067354647" className="mt-1 block transition hover:text-white">+234 706 735 4647</a>
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 text-slate-400"><span className="rounded-lg bg-orange-400/10 p-2 text-orange-300"><MapPin className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Our reach</span>Nigeria · UK · USA · Canada</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div data-static-footer className="flex flex-col gap-4 border-t border-white/10 py-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-            <div><p>© 2026 Educate Confluence Consulting Enterprise.</p><p className="mt-1">Website produced by <a href="https://oriarebun-princeton-portfolio.vercel.app" target="_blank" rel="noreferrer" className="font-semibold text-slate-300 transition hover:text-white">Oriarebun Princeton</a></p></div>
-            <div className="flex gap-5"><a href="#" className="transition hover:text-white">Privacy Policy</a><a href="#" className="transition hover:text-white">Terms of Service</a></div>
-          </div>
-        </div>
-      </footer>
+      <Footer onConsultation={openConsultationForm} onSection={scrollToSection} />
     </div>
   );
 };

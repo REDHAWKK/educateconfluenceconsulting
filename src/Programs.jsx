@@ -13,6 +13,8 @@ import {
   Rocket,
   Wallet,
 } from 'lucide-react';
+import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
 
 const DOMAIN = 'https://www.educateconfluence.com.ng';
 
@@ -40,8 +42,6 @@ const Seo = () => {
   }, []);
   return null;
 };
-
-const navItems = [{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Programs', href: '/programs' }];
 
 const programGroups = [
   {
@@ -87,13 +87,7 @@ const colorClasses = {
 const Programs = () => (
   <div className="min-h-screen bg-white text-slate-800 selection:bg-orange-100 selection:text-orange-800">
     <Seo />
-    <header className="border-b border-slate-200 bg-white/95 backdrop-blur">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8" aria-label="Main navigation">
-        <a href="/" className="flex items-center gap-3"><img src="/nav-logo.png" alt="Educate Confluence logo" className="h-12 w-16 object-contain" /><span><strong className="block text-base text-slate-900">Educate Confluence</strong><small className="block text-[10px] font-medium uppercase tracking-[0.16em] text-slate-500">Consulting Enterprise</small></span></a>
-        <div className="hidden items-center gap-7 text-sm font-semibold text-slate-600 sm:flex">{navItems.map((item) => <a key={item.href} href={item.href} className="transition hover:text-orange-600">{item.label}</a>)}<a href="/#contact" className="rounded-full bg-orange-500 px-5 py-2.5 text-white transition hover:bg-orange-600">Get started</a></div>
-        <a href="/#contact" className="rounded-full bg-orange-500 px-4 py-2 text-sm font-semibold text-white sm:hidden">Contact</a>
-      </nav>
-    </header>
+    <Navbar />
 
     <main>
       <section className="relative overflow-hidden bg-slate-950 px-6 py-24 text-white sm:py-32"><div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-yellow-500/20 blur-3xl" /><div className="relative mx-auto max-w-7xl"><p className="mb-6 text-sm font-bold uppercase tracking-[0.24em] text-orange-300">Programs and services</p><h1 className="max-w-4xl text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl">Learning designed to move people forward.</h1><p className="mt-8 max-w-2xl text-lg leading-8 text-slate-300">From academic foundations to innovation and life skills, our programs are built around the learner, the goal and the next meaningful step.</p></div></section>
@@ -104,7 +98,7 @@ const Programs = () => (
 
       <section className="bg-orange-500 px-6 py-16 text-white sm:py-20"><div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-center"><div><p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-100">Take the next step</p><h2 className="mt-3 max-w-2xl text-3xl font-bold sm:text-4xl">Let’s find the program that fits your goals.</h2></div><a href="/#contact" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-bold text-orange-700 transition hover:bg-yellow-300">Talk to our team <ArrowRight className="h-5 w-5" /></a></div></section>
     </main>
-    <footer className="bg-slate-950 px-6 py-10 text-sm text-slate-400"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 sm:flex-row"><p>© 2026 Educate Confluence Consulting Enterprise.</p><a href="mailto:educateconfluenceconsulting@gmail.com" className="transition hover:text-white">educateconfluenceconsulting@gmail.com</a></div></footer>
+    <Footer />
   </div>
 );
 
