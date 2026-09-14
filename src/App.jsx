@@ -369,7 +369,7 @@ const EducateConfluence = () => {
               
               <div className="space-y-4 text-slate-600 text-lg leading-relaxed">
                 <p>
-                  Educate Confluence Consulting Enterprise is a forward-thinking educational organisation committed to transforming how young people learn, grow and lead. Founded on the belief that quality education is the foundation of thriving communities, we bring together expertise from across four nations.
+                  Educate Confluence Consulting Enterprise is a forward-thinking educational organisation committed to transforming how young people learn, grow and lead. Founded on the belief that quality education is the foundation of thriving communities, we bring together expertise from an international network, with a current presence across Nigeria, the United Kingdom, the United States and Canada.
                 </p>
                 <p>
                   Our approach is neither conventional nor complacent. We combine high-quality learning with creative STEAM experiences, practical life skills, and character development to nurture well-rounded individuals who are confident, capable, and ready to thrive in an ever-changing world.
