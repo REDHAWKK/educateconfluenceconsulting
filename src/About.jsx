@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
-  Globe2,
+  BookOpen,
+  Globe,
+  Heart,
   Quote,
+  Rocket,
   Target,
 } from 'lucide-react';
 import Navbar from './components/Navbar.jsx';
@@ -99,10 +102,17 @@ const About = () => (
           </div>
         </section>
 
-      <section id="who-we-are" className="bg-slate-50 px-6 py-20 sm:py-28">
-        <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.85fr_1.15fr] lg:items-start">
-          <div><p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-600">Who we are</p><h2 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl">Education is more than an achievement.</h2></div>
-          <div><p className="max-w-3xl text-xl leading-9 text-slate-700">Educate Confluence Consulting Enterprise is an education-focused organisation serving K–12 learners, educators, schools, parents and communities across four connected countries.</p><p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">We connect academic excellence with creativity, communication, financial understanding, leadership and the confidence to keep learning. That is how knowledge becomes useful, and how learners become ready for the world beyond the classroom.</p><div className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-slate-200 bg-slate-200 sm:grid-cols-4">{[['4', 'countries'], ['K–12', 'learner focus'], ['6', 'learning pillars'], ['1', 'shared purpose']].map(([number, label]) => <div key={label} className="bg-white p-5 sm:p-6"><p className="text-3xl font-bold text-slate-900">{number === 'K–12' ? number : <CountUp end={Number(number)} />}</p><p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{label}</p></div>)}</div></div>
+      <section id="who-we-are" className="bg-slate-50 px-6 py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-0 lg:px-2">
+          <div className="grid items-center gap-16 lg:grid-cols-2">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-orange-600"><div className="h-0.5 w-8 bg-orange-500" />Who we are</div>
+              <h2 className="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl lg:text-5xl">We believe every learner deserves <span className="bg-linear-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">exceptional education</span></h2>
+              <div className="space-y-4 text-lg leading-relaxed text-slate-600"><p>Educate Confluence Consulting Enterprise is a forward-thinking educational organisation committed to transforming how young people learn, grow and lead. Founded on the belief that quality education is the foundation of thriving communities, we bring together expertise from across four nations.</p><p>Our approach is neither conventional nor complacent. We combine high-quality learning with creative STEAM experiences, practical life skills, and character development to nurture well-rounded individuals who are confident, capable, and ready to thrive in an ever-changing world.</p></div>
+              <div className="grid grid-cols-1 gap-4 pt-4 min-[380px]:grid-cols-2 sm:gap-6"><div className="rounded-2xl border border-slate-100 bg-white p-4"><div className="mb-1 text-3xl font-bold text-orange-500"><CountUp end={4} /></div><div className="text-sm text-slate-600">Countries Served</div></div><div className="rounded-2xl border border-slate-100 bg-white p-4"><div className="mb-1 text-3xl font-bold text-yellow-500"><CountUp end={13} suffix="+" /></div><div className="text-sm text-slate-600">Programs Offered</div></div><div className="rounded-2xl border border-slate-100 bg-white p-4"><div className="mb-1 text-3xl font-bold text-green-500"><CountUp end={6} /></div><div className="text-sm text-slate-600">Core Approach Areas</div></div><div className="rounded-2xl border border-slate-100 bg-white p-4"><div className="mb-1 text-3xl font-bold text-blue-500">∞</div><div className="text-sm text-slate-600">Possibilities Created</div></div></div>
+            </div>
+            <div className="relative"><div className="absolute -inset-4 rotate-2 rounded-[2.5rem] bg-linear-to-r from-orange-100 to-yellow-100" /><div className="relative rounded-4xl border border-slate-100 bg-white p-8"><div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2"><div className="space-y-4"><div className="rounded-2xl border border-orange-200 bg-linear-to-br from-orange-50 to-orange-100 p-6"><BookOpen className="mb-3 h-8 w-8 text-orange-500" /><div className="font-semibold text-slate-800">Academic Excellence</div><div className="mt-1 text-sm text-slate-600">Standards-aligned excellence</div></div><div className="rounded-2xl border border-green-200 bg-linear-to-br from-green-50 to-green-100 p-6"><Heart className="mb-3 h-8 w-8 text-green-500" /><div className="font-semibold text-slate-800">Inclusive Care</div><div className="mt-1 text-sm text-slate-600">Every learner matters</div></div></div><div className="space-y-4 pt-8"><div className="rounded-2xl border border-yellow-200 bg-linear-to-br from-yellow-50 to-yellow-100 p-6"><Rocket className="mb-3 h-8 w-8 text-yellow-600" /><div className="font-semibold text-slate-800">Innovation</div><div className="mt-1 text-sm text-slate-600">STEAM &amp; technology</div></div><div className="rounded-2xl border border-blue-200 bg-linear-to-br from-blue-50 to-blue-100 p-6"><Globe className="mb-3 h-8 w-8 text-blue-500" /><div className="font-semibold text-slate-800">Global Reach</div><div className="mt-1 text-sm text-slate-600">Nigeria to North America</div></div></div></div></div></div>
+          </div>
         </div>
       </section>
 

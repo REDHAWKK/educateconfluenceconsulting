@@ -394,6 +394,9 @@ const EducateConfluence = () => {
                   <div className="text-sm text-slate-600">Possibilities Created</div>
                 </div>
               </div>
+              <a href="/about" className="group inline-flex items-center gap-2 pt-2 font-semibold text-orange-600 transition-colors hover:text-orange-700">
+                Learn More <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
             </div>
 
             <div className="relative">
