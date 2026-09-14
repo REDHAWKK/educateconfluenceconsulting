@@ -1,9 +1,9 @@
 import { ArrowRight, Mail, MapPin, Phone, ChevronRight } from 'lucide-react';
 
-const Footer = ({ onConsultation, onSection }) => {
+const Footer = ({ onConsultation, onSection, showFullFooter = false }) => {
   const isHome = window.location.pathname === '/' || window.location.pathname === '';
 
-  if (!isHome) {
+  if (!isHome && !showFullFooter) {
     return (
       <footer className="bg-slate-950 px-6 py-10 text-sm text-slate-400">
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 sm:flex-row">
@@ -27,7 +27,7 @@ const Footer = ({ onConsultation, onSection }) => {
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm sm:p-8">
             <p className="text-lg font-semibold">Ready to create meaningful change?</p>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">Let’s build an education experience that equips people to flourish.</p>
-            <button onClick={onConsultation} className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-yellow-300">Start a conversation <ArrowRight className="h-4 w-4" /></button>
+            {onConsultation ? <button onClick={onConsultation} className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-yellow-300">Start a conversation <ArrowRight className="h-4 w-4" /></button> : <a href="/#contact" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-yellow-300">Start a conversation <ArrowRight className="h-4 w-4" /></a>}
           </div>
         </div>
 
@@ -41,7 +41,7 @@ const Footer = ({ onConsultation, onSection }) => {
           <div>
             <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">Explore</h3>
             <div className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-400">
-              {[['About us', 'about'], ['Our approach', 'approach'], ['Programs', 'programs'], ['Who we serve', 'audience']].map(([label, id]) => <button key={id} onClick={() => onSection(id)} className="group flex items-center gap-2 text-left transition hover:text-white"><ChevronRight className="h-3.5 w-3.5 text-orange-400 transition group-hover:translate-x-1" />{label}</button>)}
+              {[['About us', 'about'], ['Our approach', 'approach'], ['Programs', 'programs'], ['Who we serve', 'audience']].map(([label, id]) => onSection ? <button key={id} onClick={() => onSection(id)} className="group flex items-center gap-2 text-left transition hover:text-white"><ChevronRight className="h-3.5 w-3.5 text-orange-400 transition group-hover:translate-x-1" />{label}</button> : <a key={id} href={`/#${id}`} className="group flex items-center gap-2 text-left transition hover:text-white"><ChevronRight className="h-3.5 w-3.5 text-orange-400 transition group-hover:translate-x-1" />{label}</a>)}
             </div>
           </div>
 

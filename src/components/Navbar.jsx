@@ -35,10 +35,10 @@ const Navbar = () => {
   }, [isDarkMode]);
 
   useEffect(() => {
-    if (!isHome) return undefined;
-
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      if (!isHome) return;
+
       const sections = Array.from(document.querySelectorAll('section[id]'));
       setActiveSection(sections.reduce((activeId, section) => (
         section.getBoundingClientRect().top <= 160 ? section.id : activeId
@@ -149,7 +149,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between border-b border-slate-200/80 px-6 py-5 dark:border-white/10">
           <a href="/" className="flex items-center gap-3" onClick={closeMenu}>
             <img src="/nav-logo.png" alt="Educate Confluence logo" className="h-11 w-14 object-contain" />
-            <span><strong className="block text-sm text-slate-900 dark:text-white">Educate Confluence</strong><small className="mt-0.5 block text-[9px] font-medium uppercase tracking-[0.16em] text-slate-500">Consulting Enterprise</small></span>
+            <span><strong className="block text-sm text-slate-900">Educate Confluence</strong><small className="mt-0.5 block text-[9px] font-medium uppercase tracking-[0.16em] text-slate-500">Consulting Enterprise</small></span>
           </a>
           <button type="button" aria-label="Close navigation menu" onClick={closeMenu} className="rounded-xl p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white"><X className="h-5 w-5" /></button>
         </div>

@@ -7,10 +7,12 @@ html {
 html,
 body {
   transition: none;
+  scroll-behavior:smooth;
 }
 
 html.theme-transitioning *,
 html.theme-transitioning *::before,
+
 html.theme-transitioning *::after {
   transition: none !important;
   animation: none !important;
@@ -48,6 +50,26 @@ body {
   box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
   backdrop-filter: blur(18px);
 }
+.about-page .nav-shell {
+  background: transparent;
+  border-bottom: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.about-hero-fade {
+  background: linear-gradient(to right, #f8fafc, transparent);
+}
+.dark-mode .about-page .nav-shell {
+  background: transparent;
+}
+.dark-mode .about-page .about-hero-fade {
+  background: linear-gradient(to right, #0b1120, transparent);
+}
+.dark-mode .about-page .about-hero-panels .bg-orange-500 { background-color: #9a3412; }
+.dark-mode .about-page .about-hero-panels .bg-yellow-400 { background-color: #a16207; }
+.dark-mode .about-page .about-hero-panels .bg-green-500 { background-color: #166534; }
+.dark-mode .about-page .about-hero-panels .bg-blue-500 { background-color: #1d4ed8; }
+.dark-mode .about-page .about-hero-panels .from-slate-50 { --tw-gradient-from: #0b1120 var(--tw-gradient-from-position); }
 
 .theme-toggle {
   display: inline-flex;
