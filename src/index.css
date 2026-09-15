@@ -61,6 +61,26 @@ body {
 .dark-mode .about-page .about-hero-panels .bg-green-500 { background-color: #166534; }
 .dark-mode .about-page .about-hero-panels .bg-blue-500 { background-color: #1d4ed8; }
 .dark-mode .about-page .about-hero-panels .from-slate-50 { --tw-gradient-from: #0b1120 var(--tw-gradient-from-position); }
+.programs-hero-fade {
+  background: linear-gradient(to right, #f8fafc, transparent);
+}
+.dark-mode .programs-page .programs-hero-fade {
+  background: linear-gradient(to right, #0b1120, transparent);
+}
+.dark-mode .programs-page .programs-hero-panels .bg-orange-500 { background-color: #9a3412; }
+.dark-mode .programs-page .programs-hero-panels .bg-yellow-400 { background-color: #a16207; }
+.dark-mode .programs-page .programs-hero-panels .bg-green-500 { background-color: #166534; }
+.dark-mode .programs-page .programs-hero-panels .bg-blue-500 { background-color: #1d4ed8; }
+.contact-hero-fade {
+  background: linear-gradient(to right, #f8fafc, transparent);
+}
+.dark-mode .contact-page .contact-hero-fade {
+  background: linear-gradient(to right, #0b1120, transparent);
+}
+.dark-mode .contact-page .contact-hero-panels .bg-orange-500 { background-color: #9a3412; }
+.dark-mode .contact-page .contact-hero-panels .bg-yellow-400 { background-color: #a16207; }
+.dark-mode .contact-page .contact-hero-panels .bg-green-500 { background-color: #166534; }
+.dark-mode .contact-page .contact-hero-panels .bg-blue-500 { background-color: #1d4ed8; }
 
 .theme-toggle {
   display: inline-flex;

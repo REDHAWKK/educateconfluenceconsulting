@@ -1,6 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import heroIllustration from '/hero.png';
 import About from './About.jsx';
+import Contact from './Contact.jsx';
 import Programs from './Programs.jsx';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
@@ -513,9 +514,9 @@ const EducateConfluence = () => {
           </div>
 
           <div className="mt-12 text-center">
-            <button className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-slate-200 text-slate-700 font-semibold rounded-2xl hover:border-orange-300 hover:text-orange-600 transition-all duration-300 hover:-translate-y-0.5">
+            <a href="/programs" className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-slate-200 text-slate-700 font-semibold rounded-2xl hover:border-orange-300 hover:text-orange-600 transition-all duration-300 hover:-translate-y-0.5">
               View All Programs <ArrowRight className="w-5 h-5" />
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -791,13 +792,10 @@ educateconfluenceconsulting@gmail.com
                     <label className="space-y-2 text-sm font-semibold text-slate-700">Full name<input required name="name" type="text" placeholder="Your full name" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
                     <label className="space-y-2 text-sm font-semibold text-slate-700">Email address<input required name="email" type="email" placeholder="you@example.com" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
                   </div>
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <label className="space-y-2 text-sm font-semibold text-slate-700">Phone number<input name="phone" type="tel" placeholder="Your phone number" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
-                    <label className="space-y-2 text-sm font-semibold text-slate-700">I’m interested in<select required name="interest" defaultValue="" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100"><option value="" disabled>Select an option</option><option>Programs for learners</option><option>Teacher development</option><option>School partnership</option><option>Other</option></select></label>
-                  </div>
+                  <div className="grid gap-5 sm:grid-cols-2"><label className="space-y-2 text-sm font-semibold text-slate-700">Phone number <span className="font-normal text-green-700">(preferably WhatsApp)</span><input name="phone" type="tel" placeholder="Your phone number" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label><label className="space-y-2 text-sm font-semibold text-slate-700">I’m interested in<select required name="interest" defaultValue="" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100"><option value="" disabled>Select an option</option><option>Programs for learners</option><option>Teacher development</option><option>School partnership</option><option>Other</option></select></label></div>
                   <label className="block space-y-2 text-sm font-semibold text-slate-700">How can we help?<textarea required name="message" rows="4" placeholder="Share your goals or questions..." className="w-full resize-none rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
                   <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 px-6 py-4 font-semibold text-white shadow-lg shadow-orange-200 transition hover:-translate-y-0.5 hover:shadow-xl">Send consultation request <ArrowRight className="h-5 w-5" /></button>
-                  <p className="text-center text-xs text-slate-500">Form delivery will be connected to FormSpark next.</p>
+                  <p className="text-center text-xs leading-5 text-slate-500">Prefer WhatsApp? <a href="https://wa.me/2348139918218" target="_blank" rel="noreferrer" className="font-semibold text-green-700 hover:text-green-800">Message us directly instead.</a></p>
                 </form>
               </>
             )}
@@ -805,7 +803,7 @@ educateconfluenceconsulting@gmail.com
         </div>
       )}
 
-      <Footer onConsultation={openConsultationForm} onSection={scrollToSection} />
+      <Footer />
     </div>
   );
 };
@@ -815,6 +813,7 @@ const App = () => {
 
   if (path === '/about') return <About />;
   if (path === '/programs') return <Programs />;
+  if (path === '/contact') return <Contact />;
   return <EducateConfluence />;
 };
 

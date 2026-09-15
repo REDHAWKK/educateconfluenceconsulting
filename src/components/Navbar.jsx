@@ -14,6 +14,7 @@ const pageLinks = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Programs', href: '/programs' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 const getStoredTheme = () => {
@@ -89,7 +90,7 @@ const Navbar = () => {
     if (isHome) {
       scrollToSection('contact');
     } else {
-      window.location.href = '/#contact';
+      window.location.href = '/contact';
     }
     closeMenu();
   };
