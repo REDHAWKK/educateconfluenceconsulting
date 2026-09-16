@@ -454,7 +454,8 @@ const EducateConfluence = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {approachAreas.map((area, index) => (
-              <div 
+              <a 
+                href="/about"
                 key={index}
                 className={`group relative p-8 rounded-3xl border-2 ${area.borderColor} ${area.bgColor} hover:bg-white transition-all duration-500 shadow-none hover:shadow-none hover:-translate-y-1 cursor-pointer overflow-hidden`}
               >
@@ -475,7 +476,7 @@ const EducateConfluence = () => {
                 <div className="mt-6 flex items-center gap-2 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-slate-700">
                   Learn more <ChevronRight className="w-4 h-4" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

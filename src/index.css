@@ -55,9 +55,9 @@ body {
 .contact-hero {
   background-color: #ffffff;
 }
-.dark-mode .about-hero,
-.dark-mode .programs-hero,
-.dark-mode .contact-hero {
+.dark-mode .about-page .about-hero,
+.dark-mode .programs-page .programs-hero,
+.dark-mode .contact-page .contact-hero {
   background-color: #111827;
 }
 .about-hero-fade {
