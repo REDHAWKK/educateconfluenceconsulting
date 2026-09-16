@@ -50,11 +50,21 @@ body {
   box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
   backdrop-filter: blur(18px);
 }
+.about-hero,
+.programs-hero,
+.contact-hero {
+  background-color: #ffffff;
+}
+.dark-mode .about-hero,
+.dark-mode .programs-hero,
+.dark-mode .contact-hero {
+  background-color: #111827;
+}
 .about-hero-fade {
-  background: linear-gradient(to right, #f8fafc, transparent);
+  background: linear-gradient(to right, #ffffff, transparent);
 }
 .dark-mode .about-page .about-hero-fade {
-  background: linear-gradient(to right, #0b1120, transparent);
+  background: linear-gradient(to right, #111827, transparent);
 }
 .dark-mode .about-page .about-hero-panels .bg-orange-500 { background-color: #9a3412; }
 .dark-mode .about-page .about-hero-panels .bg-yellow-400 { background-color: #a16207; }
@@ -62,20 +72,20 @@ body {
 .dark-mode .about-page .about-hero-panels .bg-blue-500 { background-color: #1d4ed8; }
 .dark-mode .about-page .about-hero-panels .from-slate-50 { --tw-gradient-from: #0b1120 var(--tw-gradient-from-position); }
 .programs-hero-fade {
-  background: linear-gradient(to right, #f8fafc, transparent);
+  background: linear-gradient(to right, #ffffff, transparent);
 }
 .dark-mode .programs-page .programs-hero-fade {
-  background: linear-gradient(to right, #0b1120, transparent);
+  background: linear-gradient(to right, #111827, transparent);
 }
 .dark-mode .programs-page .programs-hero-panels .bg-orange-500 { background-color: #9a3412; }
 .dark-mode .programs-page .programs-hero-panels .bg-yellow-400 { background-color: #a16207; }
 .dark-mode .programs-page .programs-hero-panels .bg-green-500 { background-color: #166534; }
 .dark-mode .programs-page .programs-hero-panels .bg-blue-500 { background-color: #1d4ed8; }
 .contact-hero-fade {
-  background: linear-gradient(to right, #f8fafc, transparent);
+  background: linear-gradient(to right, #ffffff, transparent);
 }
 .dark-mode .contact-page .contact-hero-fade {
-  background: linear-gradient(to right, #0b1120, transparent);
+  background: linear-gradient(to right, #111827, transparent);
 }
 .dark-mode .contact-page .contact-hero-panels .bg-orange-500 { background-color: #9a3412; }
 .dark-mode .contact-page .contact-hero-panels .bg-yellow-400 { background-color: #a16207; }
