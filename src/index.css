@@ -92,6 +92,17 @@ body {
 .dark-mode .contact-page .contact-hero-panels .bg-green-500 { background-color: #166534; }
 .dark-mode .contact-page .contact-hero-panels .bg-blue-500 { background-color: #1d4ed8; }
 
+.about-founder-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.about-founder-quote {
+  border-left: 2px solid #fb923c;
+  padding-left: 1.25rem;
+}
+
 .theme-toggle {
   display: inline-flex;
   align-items: center;
