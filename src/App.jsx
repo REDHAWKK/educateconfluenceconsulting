@@ -5,6 +5,7 @@ import Contact from './Contact.jsx';
 import Programs from './Programs.jsx';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
+import ConsultationForm from './components/ConsultationForm.jsx';
 import { 
   BookOpen, 
   Users, 
@@ -107,7 +108,6 @@ const CountUp = ({ end, suffix = '', duration = 1400 }) => {
 
 const EducateConfluence = () => {
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
-  const [consultationSubmitted, setConsultationSubmitted] = useState(false);
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -117,19 +117,11 @@ const EducateConfluence = () => {
   };
 
   const openConsultationForm = () => {
-    setConsultationSubmitted(false);
     setIsConsultationOpen(true);
   };
 
   const closeConsultationForm = () => {
     setIsConsultationOpen(false);
-    setConsultationSubmitted(false);
-  };
-
-  const handleConsultationSubmit = (event) => {
-    event.preventDefault();
-    // Connect this handler to FormSpark when the endpoint is ready.
-    setConsultationSubmitted(true);
   };
 
   // Brand Colors
@@ -751,7 +743,6 @@ educateconfluenceconsulting@gmail.com
         </div>
       </section>
 
-      {/* Consultation Form — ready for FormSpark integration */}
       {isConsultationOpen && (
         <div
           className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6"
@@ -773,33 +764,17 @@ educateconfluenceconsulting@gmail.com
               <X className="h-5 w-5" />
             </button>
 
-            {consultationSubmitted ? (
-              <div className="py-10 text-center">
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-400 to-blue-500 text-2xl font-bold text-white">✓</div>
-                <h2 id="consultation-title" className="text-3xl font-bold text-slate-900">Thank you for your interest.</h2>
-                <p className="mx-auto mt-4 max-w-md text-slate-600">Your consultation form is ready for the FormSpark connection. We’ll enable delivery as soon as the endpoint is added.</p>
-                <button onClick={closeConsultationForm} className="mt-8 rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-700">Close</button>
-              </div>
-            ) : (
-              <>
-                <div className="mb-8 pr-10">
-                  <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-orange-600">Start your journey</p>
-                  <h2 id="consultation-title" className="text-3xl font-bold tracking-tight text-slate-900">Schedule a consultation</h2>
-                  <p className="mt-3 text-slate-600">Tell us a little about your needs and the right member of our team will be in touch.</p>
-                </div>
+            <div className="mb-8 pr-10">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-orange-600">Start your journey</p>
+              <h2 id="consultation-title" className="text-3xl font-bold tracking-tight text-slate-900">Schedule a consultation</h2>
+              <p className="mt-3 text-slate-600">Tell us a little about your needs and the right member of our team will be in touch.</p>
+            </div>
 
-                <form onSubmit={handleConsultationSubmit} className="space-y-5">
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <label className="space-y-2 text-sm font-semibold text-slate-700">Full name<input required name="name" type="text" placeholder="Your full name" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
-                    <label className="space-y-2 text-sm font-semibold text-slate-700">Email address<input required name="email" type="email" placeholder="you@example.com" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
-                  </div>
-                  <div className="grid gap-5 sm:grid-cols-2"><label className="space-y-2 text-sm font-semibold text-slate-700">Phone number <span className="font-normal text-green-700">(preferably WhatsApp)</span><input name="phone" type="tel" placeholder="Your phone number" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label><label className="space-y-2 text-sm font-semibold text-slate-700">I’m interested in<select required name="interest" defaultValue="" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100"><option value="" disabled>Select an option</option><option>Programs for learners</option><option>Teacher development</option><option>School partnership</option><option>Other</option></select></label></div>
-                  <label className="block space-y-2 text-sm font-semibold text-slate-700">How can we help?<textarea required name="message" rows="4" placeholder="Share your goals or questions..." className="w-full resize-none rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
-                  <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 px-6 py-4 font-semibold text-white shadow-lg shadow-orange-200 transition hover:-translate-y-0.5 hover:shadow-xl">Send consultation request <ArrowRight className="h-5 w-5" /></button>
-                  <p className="text-center text-xs leading-5 text-slate-500">Prefer WhatsApp? <a href="https://wa.me/2348139918218" target="_blank" rel="noreferrer" className="font-semibold text-green-700 hover:text-green-800">Message us directly instead.</a></p>
-                </form>
-              </>
-            )}
+            <ConsultationForm
+              className="space-y-5"
+              buttonText="Send consultation request"
+              onSuccess={closeConsultationForm}
+            />
           </div>
         </div>
       )}

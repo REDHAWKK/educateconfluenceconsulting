@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ArrowRight, MessageCircle, Phone } from 'lucide-react';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
+import ConsultationForm from './components/ConsultationForm.jsx';
 
 const DOMAIN = 'https://www.educateconfluence.com.ng';
 
 const Contact = () => {
-  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     document.title = 'Contact Us | Educate Confluence Consulting Enterprise';
@@ -41,10 +41,6 @@ const Contact = () => {
     canonical.href = `${DOMAIN}/contact`;
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setSubmitted(true);
-  };
 
   return (
     <div className="contact-page min-h-screen bg-white text-slate-800 selection:bg-orange-100 selection:text-orange-800">
@@ -60,25 +56,8 @@ const Contact = () => {
 
         <section id="schedule" className="mx-auto grid max-w-7xl gap-14 px-6 py-16 lg:grid-cols-[1.1fr_.9fr] lg:px-8 lg:py-24">
           <div>
-            {submitted ? (
-              <div className="rounded-3xl border border-green-200 bg-green-50 p-8 sm:p-10">
-                <h2 className="text-3xl font-bold text-slate-900">Thank you for reaching out.</h2>
-                <p className="mt-4 leading-7 text-slate-600">Your request has been received. We will be in touch with you soon.</p>
-                <button type="button" onClick={() => setSubmitted(false)} className="mt-7 font-semibold text-orange-600 hover:text-orange-700">Send another request</button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div><p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-600">Schedule a consultation</p><h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Start with a conversation.</h2><p className="mt-4 leading-7 text-slate-600">Share a little about your goals and the kind of support you need.</p></div>
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="space-y-2 text-sm font-semibold text-slate-700">Full name<input required name="name" type="text" placeholder="Your full name" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
-                  <label className="space-y-2 text-sm font-semibold text-slate-700">Email address<input required name="email" type="email" placeholder="you@example.com" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
-                </div>
-                <div className="grid gap-5 sm:grid-cols-2"><label className="space-y-2 text-sm font-semibold text-slate-700">Phone number <span className="font-normal text-green-700">(preferably WhatsApp)</span><input name="phone" type="tel" placeholder="Your phone number" className="w-full rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label><label className="space-y-2 text-sm font-semibold text-slate-700">I&apos;m interested in<select required name="interest" defaultValue="" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100"><option value="" disabled>Select an option</option><option>Programs for learners</option><option>Teacher development</option><option>School partnership</option><option>Online tutoring</option><option>Other</option></select></label></div>
-                <label className="block space-y-2 text-sm font-semibold text-slate-700">How can we help?<textarea required name="message" rows="5" placeholder="Share your goals or questions..." className="w-full resize-none rounded-xl border border-slate-200 px-4 py-3 font-normal outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" /></label>
-                <button type="submit" className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-orange-500 to-yellow-500 px-6 py-4 font-semibold text-white shadow-lg shadow-orange-200 transition hover:-translate-y-0.5 hover:shadow-xl">Send consultation request <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" /></button>
-                <p className="text-center text-xs leading-5 text-slate-500">Prefer a quicker response? <a href="https://wa.me/2348139918218" target="_blank" rel="noreferrer" className="font-semibold text-green-700 hover:text-green-800">Contact us on WhatsApp instead.</a></p>
-              </form>
-            )}
+            <ConsultationForm className="space-y-5" />
+            <p className="mt-5 text-center text-xs leading-5 text-slate-500">Prefer a quicker response? <a href="https://wa.me/2348139918218" target="_blank" rel="noreferrer" className="font-semibold text-green-700 hover:text-green-800">Contact us on WhatsApp instead.</a></p>
           </div>
 
           <aside className="self-start border-l-4 border-green-500 bg-green-50 p-7 sm:p-9">
