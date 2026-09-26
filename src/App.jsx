@@ -730,7 +730,7 @@ const EducateConfluence = () => {
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-yellow-500" />
                   <span>
-educateconfluenceconsulting@gmail.com
+info@educateconfluence.com.ng
 </span>
                 </div>
                 <div className="flex items-center gap-2">
