@@ -35,7 +35,7 @@ const Footer = () => {
           <div>
             <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">Connect with us</h3>
             <div className="mt-5 space-y-4 text-sm">
-              <a href="mailto:educateconfluenceconsulting@gmail.com" className="group flex items-start gap-3 text-slate-400 transition hover:text-white"><span className="rounded-lg bg-yellow-400/10 p-2 text-yellow-300"><Mail className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Email us</span>educateconfluenceconsulting@gmail.com</span></a>
+              <a href="mailto:info@educateconfluence.com.ng" className="group flex items-start gap-3 text-slate-400 transition hover:text-white"><span className="rounded-lg bg-yellow-400/10 p-2 text-yellow-300"><Mail className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Email us</span>info@educateconfluence.com.ng</span></a>
               <div className="flex items-start gap-3 text-slate-400"><span className="rounded-lg bg-green-400/10 p-2 text-green-300"><Phone className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Call us</span><a href="tel:+2348139918218" className="block transition hover:text-white">+234 813 991 8218</a><a href="tel:+2347067354647" className="mt-1 block transition hover:text-white">+234 706 735 4647</a></span></div>
               <div className="flex items-start gap-3 text-slate-400"><span className="rounded-lg bg-orange-400/10 p-2 text-orange-300"><MapPin className="h-4 w-4" /></span><span><span className="block text-xs text-slate-500">Our reach</span>Nigeria · UK · USA · Canada</span></div>
             </div>
